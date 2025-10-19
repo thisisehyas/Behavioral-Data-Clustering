@@ -23,69 +23,102 @@ The dataset was collected through self-reported responses to a comprehensive que
 
 Some algorithms were applied directly to the original dataset, while others used the **`compressed_features`** version, which groups related features together. The mean value of each feature group represents a higher-level characteristic. In total, **seven feature groups** were created.
 
-1. **Lifestyle**
-    - Sleeping Patterns 
-    - Eating Habits
-    - Exercise Routines
-    - Cleanliness and Hygiene
-    - Smoking and Drinking Habits
-    - Attitudes Toward Money and Finances
-    - Preference for Quiet vs. Lively Environment
-    - Views on Personal and Shared Spaces
+<details>
+<summary><strong>Feature Categories in <code>compressed_features</code></strong></summary>
 
-2. **Interests & Activities**
-    - Music Preferences
-    - Movie/TV Show Genres
-    - Reading and Literature
-    - Sports and Outdoor Activities
-    - Cooking and Culinary Interests
-    - Travel and Exploration Interests
-    - Artistic Interests 
-    - Creativity 
+<details>
+<summary><strong>1. Lifestyle</strong></summary>
+<ul>
+  <li>Sleeping Patterns</li>
+  <li>Eating Habits</li>
+  <li>Exercise Routines</li>
+  <li>Cleanliness and Hygiene</li>
+  <li>Smoking and Drinking Habits</li>
+  <li>Attitudes Toward Money and Finances</li>
+  <li>Preference for Quiet vs. Lively Environment</li>
+  <li>Views on Personal and Shared Spaces</li>
+</ul>
+</details>
 
-3. **Communication & Interaction**
-    - Listening Skills
-    - Conflict Resolution Abilities
-    - Openness to Feedback
-    - Expressiveness
-    - Empathy in Communication
-    - Frequency of Hosting Guests
-    - Participation in Community Events
-    - Networking and Socializing Habits
+<details>
+<summary><strong>2. Interests & Activities</strong></summary>
+<ul>
+  <li>Music Preferences</li>
+  <li>Movie/TV Show Genres</li>
+  <li>Reading and Literature</li>
+  <li>Sports and Outdoor Activities</li>
+  <li>Cooking and Culinary Interests</li>
+  <li>Travel and Exploration Interests</li>
+  <li>Artistic Interests</li>
+  <li>Creativity</li>
+</ul>
+</details>
 
-4. **Responsibility & Organization**
-    - Work Ethic
-    - Organizational Skills
-    - Reliability
-    - Punctuality
-    - Attention to Detail
+<details>
+<summary><strong>3. Communication & Interaction</strong></summary>
+<ul>
+  <li>Listening Skills</li>
+  <li>Conflict Resolution Abilities</li>
+  <li>Openness to Feedback</li>
+  <li>Expressiveness</li>
+  <li>Empathy in Communication</li>
+  <li>Frequency of Hosting Guests</li>
+  <li>Participation in Community Events</li>
+  <li>Networking and Socializing Habits</li>
+</ul>
+</details>
 
-5. **Social Engagement & Behavior**
-    - Talkativeness
-    - Enthusiasm for Social Gatherings
-    - Energy Levels
-    - Sociability
-    - Assertiveness
-    - Cooperation
-    - Trust in Others
-    - Altruism
-    - Modesty
+<details>
+<summary><strong>4. Responsibility & Organization</strong></summary>
+<ul>
+  <li>Work Ethic</li>
+  <li>Organizational Skills</li>
+  <li>Reliability</li>
+  <li>Punctuality</li>
+  <li>Attention to Detail</li>
+</ul>
+</details>
 
-6. **Emotional Regulation & Stability**
-    - Compassion
-    - Anger Management
-    - Stress Management
-    - Emotional Stability
-    - Anxiety Levels
-    - Mood Swings
+<details>
+<summary><strong>5. Social Engagement & Behavior</strong></summary>
+<ul>
+  <li>Talkativeness</li>
+  <li>Enthusiasm for Social Gatherings</li>
+  <li>Energy Levels</li>
+  <li>Sociability</li>
+  <li>Assertiveness</li>
+  <li>Cooperation</li>
+  <li>Trust in Others</li>
+  <li>Altruism</li>
+  <li>Modesty</li>
+</ul>
+</details>
 
-7. **Openness & Core Beliefs**
-    - Intellectual Curiosity
-    - Preference for Novelty
-    - Openness to Diverse Cultures
-    - Political Views
-    - Religious Beliefs
-    - Cultural Values
+<details>
+<summary><strong>6. Emotional Regulation & Stability</strong></summary>
+<ul>
+  <li>Compassion</li>
+  <li>Anger Management</li>
+  <li>Stress Management</li>
+  <li>Emotional Stability</li>
+  <li>Anxiety Levels</li>
+  <li>Mood Swings</li>
+</ul>
+</details>
+
+<details>
+<summary><strong>7. Openness & Core Beliefs</strong></summary>
+<ul>
+  <li>Intellectual Curiosity</li>
+  <li>Preference for Novelty</li>
+  <li>Openness to Diverse Cultures</li>
+  <li>Political Views</li>
+  <li>Religious Beliefs</li>
+  <li>Cultural Values</li>
+</ul>
+</details>
+
+</details>
 
 
 ## Methods
