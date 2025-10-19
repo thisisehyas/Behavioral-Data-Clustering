@@ -15,6 +15,7 @@ Traditional roommate matching methods usually focus on only a few simple prefere
 
 By analyzing psychological, behavioral and lifestyle features, this project shows how machine learning can be used to create more balanced and comfortable living environments through clear and objective compatibility analysis.
 
+
 ## Dataset
 The dataset used in this project was extracted from a [public GitHub repository](https://github.com/Pradyumna-yes/Roommate-Pairing-ML-Model). It contains **100,000 rows and 50 features** representing **psychological, behavioral and lifestyle traits**, with all feature values ranging from **0 to 5**. 
 
@@ -85,3 +86,112 @@ Some algorithms were applied directly to the original dataset, while others used
     - Political Views
     - Religious Beliefs
     - Cultural Values
+
+
+## Methods
+
+This section explains the steps we followed to prepare the data and perform clustering. It includes data cleaning, exploratory analysis, dimensionality reduction, testing clustering methods (and sub-clustering), and building a compatibility scoring system. Cluster quality was measured using silhouette score, Davies–Bouldin, and Calinski–Harabasz indices. Visualizations were produced using UMAP, bar plots, and heatmaps.
+
+<details>
+<summary><strong>Exploratory Analysis & Data Preprocessing</strong></summary>
+
+- **Initial EDA:** Dataset has ~100,000 samples and 50 numeric features (values 0–5). Most columns were complete; only a few missing values.  
+- **Missing values:** Filled using median per column to preserve distribution.  
+- **Outliers:** Checked with boxplots and z-scores. All values were within ±3, no removal needed.  
+- **Distributions & correlations:** Some features skewed; others roughly normal (e.g., creativity, curiosity). Correlation heatmap showed no features correlated >0.8.
+
+</details>
+
+<details>
+<summary><strong>Standardization & Dimensionality Reduction</strong></summary>
+
+- Standardized numeric features to mean 0 and standard deviation 1 for fair distance calculation.  
+- **PCA** used for dimensionality reduction and visualization. 30 components retained ~90–95% variance. PCA plots suggested possible subgroups.
+
+</details>
+
+<details>
+<summary><strong>Feature Engineering: <code>compressed_features</code></strong></summary>
+
+- Related features grouped into 7 categories:
+  <details>
+  <summary>The categories</summary>
+  Lifestyle  <br>
+  Interests & Activities  <br>
+  Communication & Interaction  <br>
+  Responsibility & Organization  <br>
+  Social Engagement & Behavior  <br>
+  Emotional Stability  <br>
+  Openness & Core Beliefs
+  </details> 
+- For each group, calculated the mean of features → `compressed_features` dataset, easier to interpret and used in some experiments.
+
+</details>
+
+<details>
+<summary><strong>Clustering Experiments</strong></summary>
+
+#### K-Means (Centroid-Based)
+- Applied on 30 PCA components, tested 2–11 clusters, chose using silhouette score.  
+- Feature-importance pipeline: K-Means on 50 features, Random Forest predicted cluster labels → top 10 features selected.  
+- Refined K-Means: ran on top 10 features, tested 2–6 clusters using silhouette, Davies–Bouldin, Calinski–Harabasz scores.  
+- Composite-feature K-Means: ran on `compressed_features` to interpret clusters psychologically.
+
+#### Spectral Clustering
+- Too large for 100,000 samples → used **random 3,000-sample subset**.  
+- Tested using few composite features, 2–6 clusters. Reported results only for subset.
+
+#### Density-Based Clustering (DBSCAN / HDBSCAN)
+- Two modes:  
+  1. Top 10 features after UMAP → many small clusters and noise.  
+  2. Full dataset → 5 main clusters; evaluated with metrics and UMAP plots.
+
+#### Hierarchical Clustering
+- Agglomerative (Ward linkage) on 15,000 samples → two main clusters with subclusters.  
+- K-Means + Agglomerative: K-Means split dataset into two parts, agglomerative applied, labels generalized via k-NN classifier.  
+- Divisive (custom): recursive K-Means splitting.  
+  - Stopping: max depth 3, cluster < 2000, silhouette < 0.12.  
+  - Multi-level clusters created (e.g., 0 → 0.0 → 0.0.0) with metrics at each step.
+
+#### Kernel K-Means (RBF Approximation)
+- Detect non-linear cluster shapes in major subclusters.  
+- Function `find_best_rbf_kernel_kmeans` selected best gamma (RBF width) and number of clusters.  
+- Each subcluster split hierarchically → up to 8 final clusters.  
+- Cluster profiles calculated using 7 composite groups.
+
+</details>
+
+<details>
+<summary><strong>Compatibility Scoring System</strong></summary>
+
+- **Goal:** For each person, find top-5 roommate matches with scores and score breakdown.  
+- **Inputs:** normalized features, divisive-hierarchical labels, number of recommendations.  
+- **Mechanism:**  
+  1. Cluster-based similarity: similarity of cluster centers.  
+  2. Cosine similarity: similarity between individuals.  
+  3. Weighted combination: `Final Score = w_cos * Cosine + w_clust * Cluster`.  
+- **Hyperparameters:** Tested weights (0.5,0.5), (0.7,0.3), (0.9,0.1); chose (0.7,0.3).  
+- Scores rescaled to 0–4. Output: top-5 matches per person with breakdown.
+
+</details>
+
+<details>
+<summary><strong>Evaluation & Visualization</strong></summary>
+
+- **Metrics:** silhouette score, Davies–Bouldin, Calinski–Harabasz.  
+- **Cluster numbers:** initially 2–11, refined to 2–6.  
+- **Visualizations:** UMAP 2D projections, dendrograms, bar plots of cluster feature means, heatmaps of cluster vs feature groups.  
+- Final clusters’ psychological profiles summarized using 7 composite feature groups.
+
+</details>
+
+<details>
+<summary><strong>Outputs & Artifacts</strong></summary>
+
+- Cluster profiles (means of 7 composite groups) and visualizations.  
+- Compatibility results saved with top-5 matches and score breakdown.  
+- Logs from divisive algorithm with metrics and cluster IDs for reproducibility.
+
+> Notes: Large dataset and memory limits shaped design choices (sampling for spectral clustering, RBF approximations). Detailed results and plots are available in the notebooks.
+
+</details>
