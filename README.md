@@ -249,3 +249,57 @@ The clustering models were evaluated using three internal validation metrics: **
 
 > **Note:** Higher Silhouette and Calinski–Harabasz values, and lower Davies–Bouldin values, indicate better cluster separation and internal consistency.  
 > Overall, Spectral Clustering on composite features and Density-Based Clustering showed the strongest cluster structure.
+
+## Results
+
+This section summarizes the main outcomes of the clustering experiments and the compatibility scoring system. Visualizations and full plots are available in the notebooks.
+
+### Key findings (summary)
+
+- Using **composite features** (group means) improved clustering quality across algorithms.
+- For many methods, the best overall separation was achieved with **two main clusters**, but hierarchical and kernel methods revealed meaningful subclusters.
+- **Spectral clustering** on composite features and **DBSCAN** (on all features) produced some of the highest Silhouette and Davies–Bouldin results (see Evaluation table).
+- The **divisive hierarchical** pipeline produced **7 final clusters** that are interpretable and useful for profiling individuals.
+
+### K-Means
+
+- K-Means was run on PCA components, the top-10 features, and composite features.
+- Best K-Means results came from the **composite features** (much higher Silhouette and Calinski–Harabasz scores), confirming that grouping related features helps the clustering be more meaningful.
+
+### Spectral Clustering
+
+- Run on a random subset of **3,000 samples** (full N would be too large).
+- Spectral on composite features achieved a **high silhouette** (~0.71), showing clearer separation when using grouped features.
+- Note: results on the subset are indicative but not directly comparable to full-data runs because some indices depend on sample size.
+
+### DBSCAN
+
+- On the full feature set DBSCAN found **5 main clusters** with good internal cohesion (Silhouette ≈ 0.69).
+- On the reduced/top-10 feature space it created many small clusters and identified noise points — useful to find outliers but less useful for large, general clusters.
+
+### Hierarchical clustering (divisive & agglomerative)
+
+- **Agglomerative** (Ward) on a sample showed two main clusters with nested subclusters.
+- The **divisive hierarchical** pipeline (applied to the full data) produced **7 clusters**. One of these subclusters showed very high internal quality (Silhouette ≈ 0.78), while others were more moderate — this suggests a stable multi-level structure where some groups are very coherent and others are more mixed.
+
+#### Short profile of the 7 divisive clusters
+
+- **Cluster 0:** Very low scores across features — passive, isolated, low social engagement.
+- **Cluster 1:** Active, social, fairly responsible (moderately high scores).
+- **Cluster 2:** Most active and responsible group — high openness, high reliability; looks like the best roommate candidates.
+- **Cluster 3:** Balanced group with moderate social engagement and openness.
+- **Cluster 4:** Open and responsible, somewhat more intellectual/analytical in style.
+- **Cluster 5:** Active but emotionally less stable and lower social consistency.
+- **Cluster 6:** Energetic with many interests but higher stress and lower emotional stability.
+
+### Kernel K-Means (RBF approximation)
+
+- Applied inside hierarchical branches to detect non-linear substructure.
+- Resulted in **8 smaller clusters** (labels like 000, 001, …) with interpretable profiles (e.g., stable & social, reliable & curious, active but low responsibility, isolated/low-engagement, etc.).
+- Many kernel subclusters matched the divisive hierarchical clusters, which indicates reproducible internal structure. Parameter settings such as gamma=0.01 may have contributed to this similarity, as they control the extent of non-linear transformation.
+
+### Compatibility scoring system (final recommendations)
+
+- Evaluated ~**500,000** person-pairs. Final score combined cosine similarity (0.7) and cluster similarity (0.3), then rescaled to 0–4.
+- **Statistics:** mean ≈ 3.78, SD ≈ 0.39, minimum ≈ 1.51. Most pairs scored close to 4 (top density around 4).
+- **Low-score individuals:** 133 people had an average top-5 score < 2.5. These low-score users were not evenly distributed across clusters — Cluster 6 had the largest share (51 people); Clusters 1 and 3 had the fewest (11 each). Low scores were associated with low emotional stability, low responsibility, or low social engagement.
