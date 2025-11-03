@@ -305,16 +305,37 @@ This section summarizes the main outcomes of the clustering experiments and the 
 - **Low-score individuals:** 133 people had an average top-5 score < 2.5. These low-score users were not evenly distributed across clusters — Cluster 6 had the largest share (51 people); Clusters 1 and 3 had the fewest (11 each). Low scores were associated with low emotional stability, low responsibility, or low social engagement.
 
 ## Future Work
+
 Based on the limitations and achievements of this project, several directions are suggested for future development:
 
 1. **Improving the compatibility scoring system:**
-    - Implementing dynamic or adaptive weighting for features and clusters instead of fixed weights to make compatibility estimation more precise. 
-    - Defining more refined scoring metrics to reduce score concentration near the top range and better separate highly compatible pairs. 
-    
+
+   - Implementing dynamic or adaptive weighting for features and clusters instead of fixed weights to make compatibility estimation more precise.
+   - Defining more refined scoring metrics to reduce score concentration near the top range and better separate highly compatible pairs.
+
 2. **Enhancing clustering methods:**
-    - The next step currently in progress involves implementing a Deep Embedded Clustering (DEC) model on the dataset to explore non-linear representations and compare its results with traditional clustering methods.
-    - Further experiments with different parameter settings and alternative dimensionality reduction techniques could also improve cluster clarity and reproducibility.
+
+   - The next step currently in progress involves implementing a Deep Embedded Clustering (DEC) model on the dataset to explore non-linear representations and compare its results with traditional clustering methods.
+   - Further experiments with different parameter settings and alternative dimensionality reduction techniques could also improve cluster clarity and reproducibility.
 
 3. **Practical validation and testing:**
-    - Applying the system to new or real-world datasets to evaluate generalization and robustness.
-    - Collecting feedback from real users to assess the usefulness of compatibility recommendations and identify practical limitations.
+   - Applying the system to new or real-world datasets to evaluate generalization and robustness.
+   - Collecting feedback from real users to assess the usefulness of compatibility recommendations and identify practical limitations.
+
+## Project Structure
+
+```
+Roommate_Compatibility/
+│
+├── datasets/
+│   ├── compressed_features.xlsx       # Dataset with 7 grouped features (averaged from 50 original traits)
+│   ├── primary_dataset.xlsx           # Original dataset with 50 psychological, behavioral, and lifestyle features
+│   └── top5_matches.xlsx              # Output file containing top 5 compatibility matches for each individual
+│
+├── notebooks/
+│   ├── 1.K_Means.ipynb
+│   ├── 2.Spectral_DBSCAN_KMeans_Agglomerative.ipynb
+│   └── 3.KernelKmeans_Divisive_CompatibilityScore.ipynb
+│
+└── README.md    # Project overview, dataset details, and analysis summary
+```
