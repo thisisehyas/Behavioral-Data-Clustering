@@ -303,3 +303,18 @@ This section summarizes the main outcomes of the clustering experiments and the 
 - Evaluated ~**500,000** person-pairs. Final score combined cosine similarity (0.7) and cluster similarity (0.3), then rescaled to 0–4.
 - **Statistics:** mean ≈ 3.78, SD ≈ 0.39, minimum ≈ 1.51. Most pairs scored close to 4 (top density around 4).
 - **Low-score individuals:** 133 people had an average top-5 score < 2.5. These low-score users were not evenly distributed across clusters — Cluster 6 had the largest share (51 people); Clusters 1 and 3 had the fewest (11 each). Low scores were associated with low emotional stability, low responsibility, or low social engagement.
+
+## Future Work
+Based on the limitations and achievements of this project, several directions are suggested for future development:
+
+1. **Improving the compatibility scoring system:**
+    - Implementing dynamic or adaptive weighting for features and clusters instead of fixed weights to make compatibility estimation more precise. 
+    - Defining more refined scoring metrics to reduce score concentration near the top range and better separate highly compatible pairs. 
+    
+2. **Enhancing clustering methods:**
+    - The next step currently in progress involves implementing a Deep Embedded Clustering (DEC) model on the dataset to explore non-linear representations and compare its results with traditional clustering methods.
+    - Further experiments with different parameter settings and alternative dimensionality reduction techniques could also improve cluster clarity and reproducibility.
+
+3. **Practical validation and testing:**
+    - Applying the system to new or real-world datasets to evaluate generalization and robustness.
+    - Collecting feedback from real users to assess the usefulness of compatibility recommendations and identify practical limitations.
