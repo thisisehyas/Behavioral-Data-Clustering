@@ -7,6 +7,12 @@ ENV/
 env/
 
 # ---------------------------
+# models and embeddings folders
+# ---------------------------
+models/*
+embeddings/*
+
+# ---------------------------
 # Python cache files
 # ---------------------------
 __pycache__/
@@ -40,13 +46,6 @@ __pycache__/
 .DS_Store
 Thumbs.db
 
-# ---------------------------
-# Data folders
-# ---------------------------
-# If your datasets are large and you don't want to commit them
-data/
-data_raw/
-data_processed/
 
 # ---------------------------
 # Python packaging
@@ -59,6 +58,6 @@ build/
 # ---------------------------
 # Optional: pip-tools files
 # ---------------------------
-requirements.txt  # Keep this if you want reproducibility, else ignore
+requirements.txt
 *.lock
 
