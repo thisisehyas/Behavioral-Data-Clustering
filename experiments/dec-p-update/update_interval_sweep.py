@@ -43,7 +43,7 @@ print("Encoder frozen")
 X_scaled = np.load("embeddings/X_scaled.npy")
 print("Loaded X_scaled:", X_scaled.shape)
 
-cluster_centers = np.load("embeddings/kmeans_centers/npy")
+cluster_centers = np.load("embeddings/kmeans_centers_k5.npy")
 print("Loaded KMeans centers:", cluster_centers.shape)
 
 # Update-interval sweep
