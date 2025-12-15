@@ -1,5 +1,7 @@
 import os
 import torch 
+from src.dec.train_dec import train_dec
+import pickle
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print("Using device:", device)
@@ -114,3 +116,41 @@ import torch.nn.functional as F
 loss = F.kl_div(q_batch.log(), p_batch, reduction="batchmean")
 
 print("DEC KL loss (single batch):", loss.item())
+
+update_intervals = [1, 5, 10, 20, 50]
+
+print("\nStarting update-interval sweep...")
+
+results = {}
+
+for ui in update_intervals:
+    print(f"\n==== Training DEC with update_interval = {ui} ====")
+
+    dec_model = DEC(
+        autoencoder=autoencoder, 
+        n_clusters=5, 
+        cluster_centers=cluster_centers
+    ).to(device)
+
+    for param in dec_model.encoder.parameters():
+        param.requires_grad = False
+
+    epoch_losses = train_dec(
+        dec_model=dec_model, 
+        X=X_scaled, 
+        batch_size=256, 
+        max_epochs=50, 
+        update_interval=ui, 
+        lr=1e-3
+    )
+
+    results[ui] = epoch_losses
+
+os.makedirs("results", exist_ok=True)
+
+with open("results/dec_update_interval_losses.pkl", "wb") as f:
+    pickle.dump(results, f)
+
+print("Saved update-interval sweep results.")
+
+# See docs/experiments/dec_update_interval.md for analysis of results.
