@@ -18,6 +18,7 @@ import pandas as pd
 import umap
 import matplotlib.pyplot as plt
 import seaborn as sns
+from collections import defaultdict
 
 from src.dec.autoencoder import Autoencoder
 from src.dec.dec import DEC
@@ -161,6 +162,98 @@ def main():
     plt.close()
 
     print(f"Saved UMAP plot to {umap_path}")
+
+    print("Computing cluster size statistics...")
+
+    cluster_counts = pd.Series(labels).value_counts().sort_index()
+    print(cluster_counts)
+
+    # save 
+    cluster_counts_path = os.path.join(OUTPUT_DIR, "cluster_counts.csv")
+    cluster_counts.to_csv(cluster_counts_path, header=["size"])
+
+    print(f"Saved cluster counts to {cluster_counts_path}")
+
+    print("Loading original feature dataframe...")
+    df = pd.read_excel("dataset/compressed_features.xlsx").dropna()
+    print("Loaded feature dataframe:", df.shape)
+
+    assert len(df) == len(labels), "Mismatch between df rows and DEC labels"
+
+    df_num = df.select_dtypes(include=[np.number]).copy()
+    df_num["cluster"] = labels
+
+    cluster_means = df_num.groupby("cluster").mean()
+    cluster_stds = df_num.groupby("cluster").std()
+
+    global_mean = df_num.drop(columns="cluster").mean()
+    global_std = df_num.drop(columns="cluster").std()
+    cluster_z = (cluster_means - global_mean) / (global_std + 1e-12)
+
+    topk = 8
+    profiles = {}
+
+    for c in cluster_z.index:
+        z_scores = cluster_z.loc[c].sort_values(ascending=False)
+        top_pos = z_scores.head(topk)
+        top_neg = z_scores.tail(topk)
+        profiles[c] = {
+            'top_pos': top_pos, 
+            'top_neg': top_neg
+        }
+
+    # save full tables
+    cluster_means_path = os.path.join(OUTPUT_DIR, "cluster_feature_mean.csv")
+    cluster_z_path = os.path.join(OUTPUT_DIR, "cluster_feature_zscore.csv")
+
+    cluster_means.to_csv(cluster_means_path)
+    cluster_z.to_csv(cluster_z_path)
+
+    print("Saved cluster feature statistics")
+
+    def readable_profile(cluster_id, top_pos, top_neg, count):
+        lines = []
+        lines.append(f"Cluster {cluster_id} (N={count}):")
+        lines.append("  Characteristics (higher than average):")
+        for k, v in top_pos.items():
+            lines.append(f"    - {k}: z={v:.2f}")
+        lines.append("  Characteristics (lower than average):")
+        for k, v in top_neg.items():
+            lines.append(f"    - {k}: z={v:.2f}")
+        return "\n".join(lines)
+
+    profiles_text = []
+
+    for c in sorted(profiles.keys()):
+        txt = readable_profile(
+            c,
+            profiles[c]["top_pos"].to_dict(),
+            profiles[c]["top_neg"].to_dict(),
+            int(cluster_counts.loc[c])
+        )
+        profiles_text.append(txt)
+
+    profiles_path = os.path.join(OUTPUT_DIR, "cluster_profiles.txt")
+
+    with open(profiles_path, "w") as f:
+        f.write("\n\n".join(profiles_text))
+
+    print("Saved human-readable cluster profiles")
+    
+    
+    print("Computing silhouette score per cluster...")
+
+    sil_global = silhouette_score(X_scaled, labels)
+    samp_sil = silhouette_samples(X_scaled, labels)
+
+    sil_per_cluster = {}
+    for c in np.unique(labels):
+        sil_per_cluster[int(c)] = samp_sil[labels == c].mean()
+
+    print(f"Global silhouette score: {sil_global:.4f}")
+    print("Silhouette per cluster:")
+    for c, v in sil_per_cluster.items():
+        print(f"  Cluster {c}: {v:.4f}")
 
 if __name__ == "__main__":
     main()
