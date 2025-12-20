@@ -5,7 +5,7 @@ This script evaluates clustering quality and interpretability
 for a fixed DEC configuration 
 
 It assumes:
-- A pretrained autoencoder (frozen encoder)
+- A pretrained autoencoder (frozen encoder to preserve learned representation) 
 - Latent embeddings already prepared
 - DEC trained with a fixed update interval
 """
@@ -205,7 +205,9 @@ def main():
     # save full tables
     cluster_means_path = os.path.join(OUTPUT_DIR, "cluster_feature_mean.csv")
     cluster_z_path = os.path.join(OUTPUT_DIR, "cluster_feature_zscore.csv")
+    cluster_stds_path = os.path.join(OUTPUT_DIR, "cluster_feature_std.csv")
 
+    cluster_stds.to_csv(cluster_stds_path)
     cluster_means.to_csv(cluster_means_path)
     cluster_z.to_csv(cluster_z_path)
 
