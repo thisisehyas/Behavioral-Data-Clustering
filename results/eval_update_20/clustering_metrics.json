@@ -1,0 +1,6 @@
+{
+  "update_interval": 20,
+  "silhouette": 0.22366975247859955,
+  "calinski_harabasz": 32551.008585111565,
+  "davis_bouldin": 1.075580186442533
+}

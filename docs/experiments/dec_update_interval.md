@@ -11,6 +11,7 @@ Intermediate ranges of 5, 10, and 20 exhibit a clear phase-wise pattern: the los
 Considering these observations, update intervals of 10 and 20 were selected for detailed evaluations using external clustering quality metrics.
 
 ## Experimental Setup
+
 - Model: Deep Embedded Clustering (DEC)
 - Encoder: pretrained autoencoder (frozen)
 - Number of clusters: 5
@@ -20,4 +21,15 @@ Considering these observations, update intervals of 10 and 20 were selected for 
 - Dataset: latent embeddings (X_scaled)
 
 ## Decision
+
 Based on loss behavior and stability, update intervals of 10 and 20 were selected for downstream evaluation.
+
+## Final Evaluation and Selection
+
+Following the loss-based analysis, update intervals of 10 and 20 were examined in more detail using external clustering quality metrics, cluster size distributions, feature profile consistency, and UMAP visualizations of the learned embedding space.
+
+Both configurations achieved similar overall clustering performance. However, update_interval = 20 consistently showed slightly better quantitative results, including higher Silhouette and Calinski–Harabasz scores and a lower Davies–Bouldin score. Beyond these metrics, the UMAP projections revealed clearer structural differences. With update_interval = 20, cluster regions appeared smoother and more cohesive, with less internal fragmentation. In contrast, update_interval = 10 showed more irregular structures and increased color mixing, indicating less stable cluster formation.
+
+From an optimization perspective, updating the target distribution less frequently allows the embedding space to adjust more gradually before cluster assignments are sharpened. This reduces abrupt shifts in the optimization objective and helps avoid oscillatory behavior caused by overly frequent target updates.
+
+Based on this combined quantitative and qualitative evaluation, update_interval = 20 was selected as the final configuration for subsequent experiments.

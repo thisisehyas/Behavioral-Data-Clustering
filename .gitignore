@@ -13,6 +13,25 @@ models/*
 embeddings/*
 
 # ---------------------------
+# Experiments Results
+# ---------------------------
+results/*
+
+# Keep documentation / explanation files
+!results/README.md
+
+# Keep final selected DEC update-interval evaluation 
+!results/eval_update_20/
+results/eval_update_20/*
+
+# Allow interpretable, lightweight summaries
+!results/eval_update_20/cluster_counts.csv
+!results/eval_update_20/cluster_feature_mean.csv
+!results/eval_update_20/cluster_feature_zscore.csv
+!results/eval_update_20/cluster_profiles.txt
+!results/eval_update_20/clustering_metrics.json
+
+# ---------------------------
 # Python cache files
 # ---------------------------
 __pycache__/
@@ -60,4 +79,5 @@ build/
 # ---------------------------
 requirements.txt
 *.lock
+
 
