@@ -1,0 +1,40 @@
+# Learning Rate Tuning for DEC
+# This config defines all fixed and variable parameters
+
+experiment:
+  name: lr_tuning
+  description: >
+    Systematic learning rate tuning for Deep Embedded Clustering (DEC)
+    on the roommate compatibility dataset. 
+
+dataset:
+  source: compressed_features_standardized
+  input_dim: 7
+  latent_dim: 5
+  train_split: 0.8
+  val_split: 0.2
+  split_seed: 42
+
+dec:
+  num_clusters: 5
+  update_interval: 20
+  encoder_frozen: true
+  optimizer: adam
+  max_iterations: 50
+
+learning_rate_tuning:
+  candidate_lrs:
+    - 1e-4
+    - 3e-4
+    - 1e-3
+    - 3e-3
+    - 1e-2
+  runs_per_lr: 3
+  seeds: [0, 1, 2]
+
+logging:
+  save_kl_train: true
+  save_kl_val: true
+  save_q_val: true
+  save_cluster_centers: true
+  save_labels_val: true
