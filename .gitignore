@@ -16,6 +16,7 @@ embeddings/*
 # Experiments Results
 # ---------------------------
 results/*
+experiments/**/runs/
 
 # Keep documentation / explanation files
 !results/README.md

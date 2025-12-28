@@ -1,11 +1,12 @@
 # Learning Rate Tuning for DEC
-# This config defines all fixed and variable parameters
 
 experiment:
   name: lr_tuning
   description: >
     Systematic learning rate tuning for Deep Embedded Clustering (DEC)
     on the roommate compatibility dataset. 
+  output_dir: experiments/lr-tuning/runs
+  ae_checkpoint_path: models/autoencoder_weights.pth
 
 dataset:
   source: compressed_features_standardized
@@ -20,17 +21,20 @@ dec:
   update_interval: 20
   encoder_frozen: true
   optimizer: adam
-  max_iterations: 50
+  max_iterations: 5
 
-learning_rate_tuning:
-  candidate_lrs:
-    - 1e-4
-    - 3e-4
-    - 1e-3
-    - 3e-3
-    - 1e-2
-  runs_per_lr: 3
-  seeds: [0, 1, 2]
+sweep:
+  learning_rates: [1e-3]
+  seeds: [0]
+
+# sweep:
+#   learning_rates:
+#     - 1e-4
+#     - 3e-4
+#     - 1e-3
+#     - 3e-3
+#     - 1e-2
+#   seeds: [0, 1, 2]
 
 logging:
   save_kl_train: true
