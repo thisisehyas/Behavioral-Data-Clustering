@@ -1,16 +1,19 @@
 import numpy as np
 import yaml
 from src.dec.training import run_dec_single_lr_single_seed
+from src.dec.assets import load_fixed_assets
+
 
 # load cofig 
 with open("experiments/lr-tuning/config.yaml", "r") as f:
     config = yaml.safe_load(f)
 
-# load data
-X = np.load("embeddings/X_scaled.npy")
+# load fixed assets
+assets = load_fixed_assets()
 
-train_idx = np.load("experiments/lr-tuning/splits/train_idx.npy")
-val_idx = np.load("experiments/lr-tuning/splits/val_idx.npy")
+X = assets['X']
+train_idx = assets["train_idx"]
+val_idx = assets["val_idx"]
 
 lr = 1e-3
 seed = 0

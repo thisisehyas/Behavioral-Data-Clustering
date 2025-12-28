@@ -1,6 +1,7 @@
 import argparse
 import os
 import yaml
+from src.dec.assets import load_fixed_assets
 
 def parse_args():
     parser = argparse.ArgumentParser(
@@ -26,6 +27,15 @@ def main():
     
     print("Loaded config successfully.")
     print(f"Experiment name: {config['experiment']['name']}")
+
+    assets = load_fixed_assets()
+
+    X = assets["X"]
+    train_idx = assets["train_idx"]
+    val_idx = assets["val_idx"]
+
+    X_train = X[train_idx]
+    X_val = X[val_idx]
 
 
 if __name__ == "__main__":
