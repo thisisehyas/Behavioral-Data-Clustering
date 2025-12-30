@@ -21,20 +21,16 @@ dec:
   update_interval: 20
   encoder_frozen: true
   optimizer: adam
-  max_iterations: 5
+  max_iterations: 50
 
 sweep:
-  learning_rates: [1e-3]
-  seeds: [0]
-
-# sweep:
-#   learning_rates:
-#     - 1e-4
-#     - 3e-4
-#     - 1e-3
-#     - 3e-3
-#     - 1e-2
-#   seeds: [0, 1, 2]
+  learning_rates:
+    - 1e-4
+    - 3e-4
+    - 1e-3
+    - 3e-3
+    - 1e-2
+  seeds: [0, 1, 2]
 
 logging:
   save_kl_train: true
