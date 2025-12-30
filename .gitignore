@@ -16,7 +16,8 @@ embeddings/*
 # Experiments Results
 # ---------------------------
 results/*
-experiments/**/runs/
+experiments/**/runs/*
+!experiments/**/runs/.gitkeep
 
 # Keep documentation / explanation files
 !results/README.md
