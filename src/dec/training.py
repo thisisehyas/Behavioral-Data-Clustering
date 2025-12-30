@@ -1,6 +1,7 @@
 import os
 import random
 import numpy as np
+import json
 import torch
 import torch.nn.functional as F
 
@@ -140,7 +141,22 @@ def run_dec_single_lr_single_seed(
     with torch.no_grad():
         q_val, _ = dec_model(X_val)
         val_labels = torch.argmax(q_val, dim=1).cpu().numpy()
+        Z_val = autoencoder.encoder(X_val).cpu().numpy()
 
     np.save(os.path.join(output_dir, "val_labels.npy"), val_labels)
+    np.save(os.path.join(output_dir, "q_val.npy"), q_val.cpu().numpy())
+    np.save(os.path.join(output_dir, "Z_val.npy"), Z_val)
 
+    meta = {
+        "learning_rate": lr,
+        "seed": seed,
+        "num_clusters": config["dec"]["num_clusters"],
+        "max_iterations": config["dec"]["max_iterations"],
+        "update_interval": config["dec"]["update_interval"],
+        "train_size": len(train_idx),
+        "val_size": len(val_idx),
+        "ae_checkpoint_path": ae_checkpoint_path,
+    }
 
+    with open(os.path.join(output_dir, "meta.json"), 'w') as f:
+        json.dump(meta, f, indent=2)
