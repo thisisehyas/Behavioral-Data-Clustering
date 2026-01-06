@@ -95,28 +95,81 @@ For each learning rate:
 
 High ARI indicates that the clustering solution is reproducible across random initializations.
 
-## Results Summary (Preliminary)
+## Results Summary
 
-> *This section will be updated once all figures are finalized.*
+This section summarizes the empirical evidence obtained from the learning rate sweep, combining quantitative metrics and qualitative visualizations.
 
-Initial results indicate that:
-- Extremely high learning rates tend to increase variance across seeds
-- Extremely low learning rates reduce optimization instability but may limit cluster separation
-- Intermediate learning rates provide a better balance between clustering quality and stability
+### Silhouette vs Learning Rate
 
-## Decision Criteria
+The silhouette score exhibits a clear performance peak at intermediate learning rates. While differences across the stable range are modest, learning rates around **1e-3** consistently achieve the highest mean silhouette score, with overlapping error bars across seeds. Extremely high learning rates show degraded clustering quality, while very small learning rates do not provide additional structural gains.
 
-The final learning rate selection will be based on a combination of:
-1. High silhouette score
-2. Low variance across seeds
-3. Strong ARI stability
-4. Smooth KL convergence behavior
+### Entropy vs Learning Rate
+
+Mean assignment entropy increases monotonically as the learning rate decreases. This indicates that smaller learning rates produce softer cluster assignments. No entropy collapse or degenerate behavior is observed; however, the smallest learning rate results in overly soft assignments, suggesting under-confident clustering despite high stability.
+
+### KL Convergence Dynamics
+
+KL divergence curves reveal clear differences in optimization behavior:
+
+* High learning rates exhibit noisier or less smooth convergence.
+* Intermediate learning rates converge smoothly without oscillation.
+* Very small learning rates converge slowly, with near-flat KL curves in later epochs, indicating under-driven optimization.
+
+### Cross-Seed Stability (ARI)
+
+ARI heatmaps and summary statistics show that stability improves as the learning rate decreases. High learning rates demonstrate increased variance and weaker diagonal structure, while lower learning rates produce strong diagonal coherence, indicating consistent clustering across epochs and seeds.
 
 
-## Reproducibility Notes
+## Learning Rate Selection Criteria
 
-- All random seeds are explicitly set
-- All splits are fixed and reused
-- No post-hoc tuning was performed after observing results
+The learning rate is selected using a **multi-criteria decision framework**, defined *prior to final selection*:
 
-This ensures that reported conclusions are reproducible and unbiased.
+1. **Clustering Quality**
+   Near-maximum silhouette score, within error bars of the best-performing configuration.
+
+2. **Assignment Confidence**
+   Low entropy indicating confident assignments, without evidence of degenerate collapse or premature hardening.
+
+3. **Optimization Stability**
+   Smooth KL divergence trajectories with no oscillation or divergence.
+
+4. **Cross-Seed Reproducibility**
+   High mean ARI and reasonable variance across random seeds.
+
+No single metric is used in isolation; the final decision reflects a balance across all criteria.
+
+
+## Failure Modes Observed
+
+Explicit failure modes were identified for non-selected learning rates:
+
+* **LR = 1e-2**
+  High variance across seeds, weak ARI diagonal structure, and unstable clustering behavior.
+
+* **LR = 3e-3**
+  Marginal stability and relatively low entropy, suggesting a risk of premature hardening.
+
+* **LR = 1e-4**
+  Extremely stable but overly soft assignments, accompanied by slow and under-driven convergence.
+
+These configurations were therefore excluded from final consideration.
+
+
+## Final Learning Rate Decision
+
+Based on the combined evidence from clustering quality, assignment confidence, optimization behavior, and cross-seed stability, we select:
+
+```
+Learning Rate = 1e-3
+```
+
+This value provides the best overall trade-off between performance, stability, and convergence efficiency.
+
+## Learning Rate Freeze Statement
+
+The learning rate is **fixed to 1e-3 for all subsequent experimental phases**.
+
+No further learning rate tuning is performed beyond this point.
+All results reported in later stages assume this fixed learning rate.
+
+Any deviation from this value would require re-running the entire learning rate sensitivity analysis.
