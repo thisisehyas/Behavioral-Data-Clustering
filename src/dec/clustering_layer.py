@@ -5,6 +5,9 @@ import torch.nn.functional as F
 class ClusteringLayer(nn.Module):
   def __init__(self, n_clusters, embedding_dim, cluster_centers=None, alpha=1.0):
     super(ClusteringLayer, self).__init__()
+
+    assert alpha > 0, "Student-t alpha must be positive"
+
     self.n_clusters = n_clusters
     self.alpha = alpha
 
@@ -35,3 +38,6 @@ class ClusteringLayer(nn.Module):
     q = numerator / torch.sum(numerator, dim=1, keepdim=True) # normalize
 
     return q
+  
+  def log_alpha(self):
+    return f"n_clusters={self.n_clusters}, alpha={self.alpha}"
