@@ -1,0 +1,44 @@
+# Alpha Sensitivity Experiment Configuration
+
+experiment:
+  name: alpha_sensitivity
+  description: >
+    Sensitivity analysis of the Student-t distribution parameter (alpha)
+    for Deep Embedded Clustering (DEC) on the roommate compatibility dataset.
+  output_dir: experiments/alpha_sensitivity/runs
+  ae_checkpoint_path: models/autoencoder_weights.pth
+
+dataset:
+  source: compressed_features_standardized
+  input_dim: 7
+  latent_dim: 5
+  train_split: 0.8
+  val_split: 0.2
+  split_seed: 42
+
+dec:
+  num_clusters: 5
+  update_interval: 20
+  encoder_frozen: true
+  optimizer: adam
+  learning_rate: 0.001 # 1e-3
+  max_iterations: 50
+
+sweep:
+  alphas:
+    - 0.1
+    - 0.5
+    - 1.0
+    - 2.0
+    - 5.0
+  seeds:
+    - 0
+    - 1
+    - 2
+
+logging:
+  save_kl_train: true
+  save_kl_val: true
+  save_q_val: true
+  save_cluster_centers: true
+  save_lables_val: true
