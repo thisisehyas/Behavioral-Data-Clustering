@@ -72,18 +72,7 @@ def compute_cluster_size_metrics(labels):
         }
     }
 
-def save_run_metrics(run_dir: Path, metrics: dict):
-    output_path = run_dir / "run_metrics.json"
-    with open(output_path, "w") as f:
-        json.dump(metrics, f, indent=2)
-
-def main():
-    args = parse_args()
-    run_dir = Path(args.run_dir)
-
-    if not run_dir.exists():
-        raise FileNotFoundError(f"Run directory not found: {run_dir}")
-    
+def compute_metrics_for_run(run_dir: Path):
     artifacts = load_run_artifacts(run_dir)
 
     Z_val = artifacts["Z_val"]
@@ -114,6 +103,21 @@ def main():
             train_kl, val_kl
         ),
     }
+
+    return metrics
+def save_run_metrics(run_dir: Path, metrics: dict):
+    output_path = run_dir / "run_metrics.json"
+    with open(output_path, "w") as f:
+        json.dump(metrics, f, indent=2)
+
+def main():
+    args = parse_args()
+    run_dir = Path(args.run_dir)
+
+    if not run_dir.exists():
+        raise FileNotFoundError(f"Run directory not found: {run_dir}")
+    
+    metrics = compute_metrics_for_run(run_dir)
 
     save_run_metrics(run_dir, metrics)
 
