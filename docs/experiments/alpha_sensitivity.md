@@ -2,10 +2,9 @@
 
 The objective of this experiment is to systematically evaluate the sensitivity of the Deep Embedded Clustering (DEC) model to the Student-t distribution hyperparameter α.
 
-Unlike the learning-rate experiment, which mainly affects optimization speed and convergence, α directly determines the shape of the Student-t distribution used to compute soft cluster assignments. As a result, changes in α may affect optimization behavior, assignment confidence, clustering quality, and the stability of the learned partition.
+Unlike the learning-rate experiment, which mainly affects optimization speed and convergence, α directly controls the shape of the Student-t distribution used to compute soft cluster assignments. As a result, changes in α may affect optimization behavior, assignment confidence, clustering quality, and the stability of the learned partition.
 
-Instead of selecting α based on convention or default values, we conduct a controlled hyperparameter sweep and evaluate each configuration using multiple random seeds.
-
+Rather than selecting α based on convention or default values, a controlled hyperparameter sweep is performed and each configuration is evaluated using multiple random seeds.
 
 # Experimental Setup
 
@@ -32,7 +31,6 @@ Instead of selecting α based on convention or default values, we conduct a cont
 
 Using the same data split throughout the study ensures that any differences between experiments are attributable only to the choice of α.
 
-
 # Alpha Sweep
 
 The following α values were evaluated:
@@ -44,7 +42,6 @@ The following α values were evaluated:
 - 5.0
 
 Each configuration was trained using **three independent random seeds**, resulting in **15 total experiments**.
-
 
 # Logged Artifacts (Per Run)
 
@@ -59,7 +56,6 @@ Each run stores:
 - `meta.json`
 - `run_metrics.json`
 
-
 # Evaluation Metrics
 
 Metrics are computed after training using the validation set.
@@ -71,7 +67,6 @@ Metrics are computed after training using the validation set.
 
 These metrics evaluate optimization performance and generalization.
 
-
 ## Clustering Quality
 
 - Silhouette Score
@@ -80,14 +75,12 @@ These metrics evaluate optimization performance and generalization.
 
 These metrics assess the compactness and separation of the learned clusters.
 
-
 ## Assignment Confidence
 
 - Mean assignment entropy
 - Standard deviation of entropy
 
 Lower entropy corresponds to more confident cluster assignments.
-
 
 ## Cross-Seed Reproducibility
 
@@ -98,7 +91,6 @@ For each α:
 - pairwise ARI matrices are computed,
 - mean and standard deviation are reported,
 - ARI heatmaps are used to visualize agreement between random seeds.
-
 
 ## Cluster Structure
 
@@ -112,7 +104,6 @@ The analysis reports:
 - standard deviations across seeds,
 - cluster-size sensitivity plots.
 
-
 # Aggregation Across Seeds
 
 For every α value:
@@ -122,7 +113,6 @@ For every α value:
 - summary tables are generated automatically.
 
 Aggregating results across seeds makes it possible to distinguish trends associated with α from variation caused by random initialization.
-
 
 # Alpha Selection Criteria
 
@@ -149,92 +139,86 @@ The following aspects are considered jointly:
 5. **Cluster structure**
    - Stable ranked cluster-size distributions
 
-The selected α should provide the best overall trade-off across these criteria rather than optimizing only one metric.
-
+The selected α should provide the best balance across these criteria rather than optimizing only one metric. When two or more α values are statistically indistinguishable on these criteria (i.e., differences fall within the seed-to-seed standard deviation), the simpler / more conservative value should be preferred over one with only a marginally higher point estimate.
 
 # Results Summary
-
-The alpha sensitivity study revealed a clear difference between optimization behavior and clustering performance.
 
 ## Optimization
 
 Increasing α consistently reduced both training and validation KL divergence.
 
-The largest improvements were observed between α = 0.1 and α = 0.5, after which optimization gradually approached saturation.
+The largest improvements were observed between α = 0.1 and α = 1.0, after which optimization gradually approached saturation. From α = 1.0 to α = 2.0 the remaining improvement is small, and from α = 2.0 to α = 5.0 it is essentially flat.
 
-Training also became more consistent across random seeds as α increased.
-
+Training also became more consistent across random seeds as α increased (the standard deviation of training KL shrinks steadily).
 
 ## Assignment Confidence
 
-Assignment entropy decreased moderately as α increased, indicating slightly more confident soft cluster assignments.
+Assignment entropy decreased moderately as α increased, indicating slightly more confident soft cluster assignments. This trend is not perfectly monotonic (entropy decreases again at α = 5), so it should be read as a mild tendency rather than a strong effect.
 
-No evidence of assignment collapse or degenerate clustering was observed.
-
+No evidence of assignment collapse or degenerate clustering was observed for α ≤ 2.0.
 
 ## Clustering Quality
 
 Despite the improvements in optimization, the internal clustering metrics remained highly stable.
 
-The Silhouette Score, Davies–Bouldin Index, and Calinski–Harabasz Score showed only negligible changes across the evaluated range of α.
-
-These results indicate that improved optimization does not necessarily translate into measurable improvements in clustering quality.
-
+The Silhouette Score, Davies–Bouldin Index, and Calinski–Harabasz Score showed only negligible changes across the evaluated range of α — well within one seed standard deviation of each other. These results indicate that improved optimization (lower KL) does not translate into measurable improvements in clustering quality, at least not one that these metrics can detect.
 
 ## Cross-Seed Reproducibility
 
-The mean ARI remained close to 0.70 for α values between 0.1 and 2.0.
+The mean ARI remained close to 0.70 for α values between 0.1 and 2.0, with no α in this range showing a clear or reliable advantage over another. The largest difference between any two of these four α values (≈0.001) is negligible compared with the corresponding per-α standard deviation (≈0.17–0.18). ARI heatmaps also showed nearly identical agreement patterns across these experiments.
 
-ARI heatmaps showed nearly identical agreement patterns across these experiments.
+Only α = 5 produced a modest reduction in both mean ARI and reproducibility, mainly due to decreased agreement between one pair of random seeds.
 
-Only α = 5 produced a modest reduction in reproducibility, mainly due to decreased agreement between one pair of random seeds.
-
-The clustering solutions remained highly reproducible across the evaluated range.
-
+Independent of α, the ARI standard deviation is large relative to its mean (~0.18 on ~0.70). This cross-seed variability is present at every α value and is discussed further below in the Post-hoc Analysis of Smallest-Cluster Stability section.
 
 ## Cluster Structure
 
-Ranked cluster-size distributions remained nearly unchanged for all evaluated α values.
+Ranked cluster-size distributions remained nearly unchanged for all evaluated α values. The ordering and average size of the clusters were preserved throughout the experiments, indicating that α has little influence on the global partition structure.
 
-The ordering and average size of the clusters were preserved throughout the experiments, indicating that α has little influence on the global partition structure.
-
-Although the smallest ranked cluster showed greater variability across random seeds, this is expected because relatively small clusters are naturally more sensitive to initialization.
-
+The smallest ranked cluster exhibited much greater variability across random seeds than any other cluster (std ≈1200 with a mean of ≈970, larger than the mean itself). (See Post-hoc Analysis of Smallest-Cluster Stability section)
 
 # Observed Trade-offs
 
 No catastrophic failure modes were observed within the evaluated range.
 
-However, α = 5 showed diminishing returns:
+Within α = 0.1–2.0, clustering-quality metrics (Silhouette, Davies–Bouldin, Calinski–Harabasz, ARI) do not move by more than seed noise. The only metric that clearly separates α values in this range is KL divergence, and nearly all of that improvement is already captured by α = 1.0. The additional reduction in KL divergence from α = 1.0 to α = 2.0 is small, cannot be clearly separated from noise, and is not accompanied by improvements in any clustering-quality metric.
 
-- only marginal optimization improvements,
-- slightly lower reproducibility,
-- no measurable improvement in clustering quality.
+The first meaningful drawback appears at α = 5. Mean entropy decreases further, mean ARI reaches its lowest value in the sweep (0.685), and the largest cluster grows while the smallest cluster becomes smaller, suggesting the early onset of over-sharpening.
 
-As a result, values larger than 2.0 provided little practical benefit.
-
+As a result, values larger than 1.0 provide little practical benefit, and values beyond 2.0 start to carry a small but real cost.
 
 # Final Alpha Decision
 
-Based on the combined evidence from optimization behavior, clustering quality, assignment confidence, reproducibility, and cluster-size stability, we select
+Based on the combined evidence from optimization behavior, clustering quality, assignment confidence, reproducibility, and cluster-size stability, the selected alpha is
 
 ```
-α = 2.0
+α = 1.0
 ```
 
-Although α = 1.0 produced comparable clustering quality, α = 2.0 consistently achieved lower training and validation KL divergence, lower assignment entropy, and the highest mean ARI, while preserving the same overall clustering structure.
+α = 1.0 captures nearly all of the KL-divergence improvement seen across the sweep, and is statistically indistinguishable from α = 2.0 on every clustering-quality, entropy, and reproducibility metrics. The apparent advantages held by α = 2.0 (marginally lower KL, marginally lower entropy, marginally higher mean ARI) in each case falls well inside the seed-to-seed standard deviation, and cannot be treated as a real effect with only three seeds.
 
-Increasing α beyond 2.0 produced only marginal improvements in optimization and was accompanied by a slight reduction in reproducibility.
+Given two configurations that are indistinguishable on the metrics that matter, the smaller α is preferred: it makes a weaker assumption about assignment sharpness, keeps more distance from the degradation trend that starts to appear at α = 5, and is the simpler, more conservative default.
 
-Accordingly, α = 2.0 provides the best balance across all evaluation criteria.
+Increasing α beyond 1.0 produced no reliable improvement in optimization or clustering quality. By α = 5, it was associated with a measurable reduction in reproducibility and cluster balance.
 
+# Post-hoc Analysis of Smallest-Cluster Stability
+
+After completing the alpha sweep, an additional post-hoc analysis was conducted to investigate the unusually large variance observed in the smallest ranked cluster.
+
+Using the saved validation labels from the α = 1.0 runs, the membership of the smallest cluster was compared across all three random seeds.
+
+The analysis revealed:
+
+- Seeds 1 and 2 produced an identical smallest cluster containing 107 validation samples (Jaccard overlap = 1.00).
+- Seed 0 did not recover this subgroup as a separate cluster (Jaccard overlap = 0.00 with both Seeds 1 and 2).
+- Tracing the 107 samples from Seed 1 into Seed 0 showed that 92 of them (86.0%) were assigned to the same larger cluster, while only a handful were distributed among the remaining clusters.
+
+These results indicate that the instability is not caused by random reassignment of individual samples. Instead, the same compact subgroup is consistently present in the data, but under some random initializations DEC separates it into its own cluster, whereas under others it merges it into a neighboring cluster.
+
+Accordingly, the large variance observed in the smallest cluster size should be interpreted as instability in cluster separation rather than instability in sample membership.
+
+This observation appears to be largely independent of the choice of α, since similar smallest cluster statistics were observed across the entire alpha sweep. Therefore, it does not change the conclusions of the alpha sensitivity analysis.
 
 # Alpha Freeze Statement
 
-The Student-t distribution parameter is **fixed to α = 2.0** for all subsequent experiments.
-
-No additional α tuning is performed beyond this point.
-
-All later experiments use this value to ensure consistency throughout the experimental pipeline.
-
-Any change to α would require repeating the complete alpha sensitivity analysis.
+The Student-t distribution parameter is fixed to α = 1.0 for all subsequent experiments within the training pipeline. Any future changes to the training methodology (e.g., optimization procedure or initialization strategy) would require repeating the alpha sensitivity analysis.
