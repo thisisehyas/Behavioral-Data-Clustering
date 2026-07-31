@@ -1,67 +1,202 @@
+import random
+import numpy as np
 import torch
-import torch.nn.functional as F
+from src.dec.autoencoder import Autoencoder
+from sklearn.cluster import KMeans
+from src.dec.dec import DEC
 from torch.utils.data import DataLoader, TensorDataset
+import torch.nn.functional as F
 from src.dec.target_distribution import target_distribution
 
-def train_dec(dec_model, X, batch_size=256, max_epochs=50, update_interval=10, lr=1e-3):
+def set_seed(seed: int):
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed_all(seed)
+    torch.backends.cudnn.deterministic = True
+    torch.backends.cudnn.benchmark = False
+
+def train_dec(
+      X,
+      train_idx,
+      val_idx,
+      ae_checkpoint_path,
+      config,
+      seed,
+  ):
   """
-  - dec_model: the encoder + clustering layer combined
-  - X: the full dataset of embeddings
-  - batch_size: minibatch size
-  - max_epochs: number of passes over the dataset
-  - update_interval: how often we recompute the target distribution `p`
-  - lr: learning rate
+  Train one DEC model using the canonical training pipeline.
+
+  Parameters
+  ----------
+  X : np.ndarray
+      Full dataset.
+
+  train_idx : np.ndarray
+      Indices of training split.
+
+  val_idx : np.ndarray
+      Indices of validation split.
+
+  ae_checkpoint_path : str
+      Path to the pretrained autoencoder.
+
+  config : dict
+      DEC configuration.
+
+  seed : int
+      Random seed.
+
+  Returns
+  -------
+  dict
+      Training results.
   """
+  set_seed(seed)
 
-  # put model in training mode
-  dec_model.train()
-  device = next(dec_model.parameters()).device
+  device = torch.device(
+      "cuda" if torch.cuda.is_available() else "cpu"
+  )
 
-  # optimizer (updates encoder + cluster centers)
-  # using the Adam optimizer as the org paper does
-  optimizer = torch.optim.Adam(dec_model.parameters(), lr=lr)
+  # load pretrained autoencoder
+  autoencoder = Autoencoder()
 
-  # creating batches
-  dataset = TensorDataset(torch.tensor(X, dtype=torch.float32))
-  dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=False)
+  autoencoder.load_state_dict(
+    torch.load(ae_checkpoint_path, map_location=device)
+  )
 
-  # initial q for the entire dataset
-  X_tensor = torch.tensor(X, dtype=torch.float32).to(device)
-  q_init, _ = dec_model(X_tensor)
-  p = target_distribution(q_init).to(device)
+  autoencoder = autoencoder.to(device)
+  autoencoder.eval()
 
-  epoch_losses = []
+  for param in autoencoder.encoder.parameters():
+      param.requires_grad = False
+
+  X_tensor = torch.tensor(
+    X, 
+    dtype=torch.float32, 
+    device=device,
+  )
+  
+  X_train = X_tensor[train_idx]
+  X_val = X_tensor[val_idx]
+
+  # compute train embeddings
+  with torch.no_grad():
+     Z_train = autoencoder.encoder(X_train).cpu().numpy()
+
+  kmeans = KMeans(
+     n_clusters=config["dec"]["num_clusters"],
+     random_state=seed,
+     n_init=20,
+  )
+
+  kmeans.fit(Z_train)
+
+  cluster_centers = kmeans.cluster_centers_
+
+  # initialize DEC model with KMeans centers
+  dec_model = DEC(
+        autoencoder=autoencoder,
+        n_clusters=config["dec"]["num_clusters"],
+        cluster_centers=cluster_centers,
+        alpha=config["dec"]["alpha"],
+  ).to(device)
+
+  optimizer = torch.optim.Adam(
+        dec_model.clustering_layer.parameters(),
+        lr=config["dec"]["learning_rate"],
+    )
+
+  train_dataset = TensorDataset(X_train, torch.arange(len(X_train)))
+
+  train_loader = DataLoader(
+        train_dataset,
+        batch_size=config["dec"]["batch_size"],
+        shuffle=True,
+    )
+  
+  # initialize the first target distribution
+  with torch.no_grad():
+        q_train, _ = dec_model(X_train)
+        p_train = target_distribution(q_train)
+
+  train_kl = []
+  val_kl = []
+
+  max_epochs = config["dec"]["max_epochs"]
+  update_interval = config["dec"]["update_interval"]
 
   for epoch in range(max_epochs):
-    batch_losses = []
+        if epoch % update_interval == 0:
+            with torch.no_grad():
+                q_train, _ = dec_model(X_train)
+                p_train = target_distribution(q_train)
 
-    # every 'update_interval', refresh the whole target distribution p
-    if epoch % update_interval == 0:
-      q_full, _ = dec_model(X_tensor)
-      p = target_distribution(q_full).to(device)
+        dec_model.train()
 
-    # batch training
-    for batch_idx, (x_batch,) in enumerate(dataloader):
-      x_batch = x_batch.to(device)
-
-      optimizer.zero_grad()
-
-      q_batch, _ = dec_model(x_batch)
-
-      # extract p batch too (same indices)
-      p_batch = p[batch_idx * batch_size : batch_idx * batch_size + len(x_batch)]
-
-      # KL divergence loss
-      loss = F.kl_div(q_batch.log(), p_batch, reduction='batchmean')
-
-      loss.backward()
-      optimizer.step()
-
-      batch_losses.append(loss.item())
+        batch_losses = []
     
-    epoch_loss = sum(batch_losses) / len(batch_losses)
-    epoch_losses.append(epoch_loss)
+        for batch_idx, (x_batch, batch_indices) in enumerate(train_loader):
+            x_batch = x_batch.to(device)
+            batch_indices = batch_indices.to(device)
 
-    print(f"Epoch {epoch+1}/{max_epochs}, Loss = {epoch_loss:.4f}")
+            optimizer.zero_grad(set_to_none=True)
 
-  return epoch_losses
+            q_batch, _ = dec_model(x_batch)
+
+            p_batch = p_train[batch_indices]
+
+            loss = F.kl_div(
+                q_batch.log(),
+                p_batch,
+                reduction="batchmean",
+            )
+
+            loss.backward()
+            optimizer.step()
+
+            batch_losses.append(loss.item())
+
+        epoch_train_loss = sum(batch_losses) / len(batch_losses)
+        train_kl.append(epoch_train_loss)
+
+        dec_model.eval()
+
+        with torch.no_grad():
+            q_val, _ = dec_model(X_val)
+            p_val = target_distribution(q_val)
+            loss_val = F.kl_div(
+                q_val.log(),
+                p_val,
+                reduction="batchmean",
+            )
+
+        val_kl.append(loss_val.item())
+
+        print(
+            f"Epoch {epoch+1}/{max_epochs}, "
+            f"Train KL Loss = {epoch_train_loss:.4f}, "
+            f"Val KL Loss = {loss_val.item():.4f}"
+        )
+
+  dec_model.eval()
+
+  with torch.no_grad():
+    q_val, _ = dec_model(X_val)
+
+    val_labels = torch.argmax(q_val, dim=1).cpu().numpy()
+
+    Z_val = autoencoder.encoder(X_val).cpu().numpy()
+
+  return {
+    "train_kl": train_kl,
+    "val_kl": val_kl,
+    "cluster_centers":
+        dec_model.clustering_layer.cluster_centers.detach().cpu().numpy(),
+    "val_labels": val_labels,
+    "q_val": q_val.cpu().numpy(),
+    "p_val": p_val.cpu().numpy(),
+    "Z_val": Z_val,
+    "p_train": p_train.cpu().numpy(),
+    "seed": seed,
+}
