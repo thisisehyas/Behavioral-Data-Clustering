@@ -24,6 +24,7 @@ dec:
   encoder_frozen: true
   update_interval: 20
   max_epochs: 50
+  batch_size: 256
 
 sweep:
   alphas:
@@ -36,6 +37,8 @@ sweep:
     - 0
     - 1
     - 2
+    - 3
+    - 4
 
 logging:
   save_kl_train: true
