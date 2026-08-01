@@ -1,4 +1,3 @@
-import argparse
 import json
 from pathlib import Path
 
@@ -9,19 +8,7 @@ from sklearn.metrics import (
     davies_bouldin_score
 )
 
-def parse_args():
-    parser = argparse.ArgumentParser(
-        description="Compute clustering and DEC metrics for a single run"
-    )
-    parser.add_argument(
-        "--run_dir",
-        type=str,
-        required=True,
-        help="path to single LR/sweed run directory"
-    )
-    return parser.parse_args()
-
-def load_run_artifacts(run_dir: Path) :
+def load_run_artifacts(run_dir: Path):
     artifacts = {}
 
     artifacts["Z_val"] = np.load(run_dir / "Z_val.npy")
@@ -62,18 +49,21 @@ def compute_optimization_metrics(train_kl, val_kl):
 
     return metrics
 
-def save_run_metrics(run_dir: Path, metrics: dict):
-    output_path = run_dir / "run_metrics.json"
-    with open(output_path, "w") as f:
-        json.dump(metrics, f, indent=2)
+def compute_cluster_size_metrics(labels):
+    unique, counts = np.unique(labels, return_counts=True)
 
-def main():
-    args = parse_args()
-    run_dir = Path(args.run_dir)
+    return {
+        "cluster_sizes": {
+            str(int(cluster_id)): int(size)
+            for cluster_id, size in zip(unique, counts)
+        }
+    }
 
-    if not run_dir.exists():
-        raise FileNotFoundError(f"Run directory not found: {run_dir}")
-    
+def compute_metrics_for_run(run_dir: Path, sweep_parameter: str):
+    """
+    Compute all evaluation metrics for a single DEC experiment run.
+    """
+
     artifacts = load_run_artifacts(run_dir)
 
     Z_val = artifacts["Z_val"]
@@ -86,10 +76,23 @@ def main():
     entropy = compute_entropy(q_val)
 
     metrics = {
-        "learning_rate": meta["learning_rate"],
+        sweep_parameter: meta[sweep_parameter],
         "seed": meta["seed"],
 
+        "configuration": {
+            "num_clusters": meta.get("num_clusters"),
+            "learning_rate": meta.get("learning_rate"),
+            "update_interval": meta.get("update_interval"),
+            "max_epochs": meta.get("max_epochs"),
+            "train_size": meta.get("train_size"),
+            "val_size": meta.get("val_size"),
+        },
+
         "clustering_metrics": compute_clustering_metrics(Z_val, labels),
+
+        "cluster_size_metrics": compute_cluster_size_metrics(
+        labels
+        ), 
 
         "entropy_metrics": {
             "mean_entropy": float(np.mean(entropy)),
@@ -101,9 +104,13 @@ def main():
         ),
     }
 
-    save_run_metrics(run_dir, metrics)
+    return metrics
 
-    print(f"Saved run_metrics.json to {run_dir}")
+def save_run_metrics(run_dir: Path, metrics: dict):
+    """
+    Save computed metrics to run_metrics.json.
+    """
 
-if __name__ == "__main__":
-    main()
+    output_path = run_dir / "run_metrics.json"
+    with open(output_path, "w") as f:
+        json.dump(metrics, f, indent=2)
