@@ -18,10 +18,11 @@ dataset:
 
 dec:
   num_clusters: 5
-  update_interval: 20
-  encoder_frozen: true
+  alpha: 1.0
   optimizer: adam
-  max_iterations: 50
+  encoder_frozen: true
+  update_interval: 20
+  max_epochs: 50
 
 sweep:
   learning_rates:

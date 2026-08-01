@@ -18,11 +18,12 @@ dataset:
 
 dec:
   num_clusters: 5
-  update_interval: 20
-  encoder_frozen: true
-  optimizer: adam
+  alpha: 1.0
   learning_rate: 0.001 # 1e-3
-  max_iterations: 50
+  optimizer: adam
+  encoder_frozen: true
+  update_interval: 20
+  max_epochs: 50
 
 sweep:
   alphas:
@@ -41,4 +42,4 @@ logging:
   save_kl_val: true
   save_q_val: true
   save_cluster_centers: true
-  save_lables_val: true
+  save_labels_val: true
