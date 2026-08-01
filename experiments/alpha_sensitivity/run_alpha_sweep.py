@@ -23,14 +23,15 @@ def parse_args():
 def main():
     args = parse_args()
 
-    if not os.path.exists(args.config):
-        raise FileNotFoundError(f"Config not found: {args.config}")
+    config_path = args.config
+    if not os.path.exists(config_path):
+        raise FileNotFoundError(f"Config file not found: {config_path}")
 
-    with open(args.config) as f:
+    with open(config_path, "r") as f:
         config = yaml.safe_load(f)
 
     print("Loaded config successfully.")
-    print(f"Experiment: {config['experiment']['name']}")
+    print(f"Experiment name: {config['experiment']['name']}")
 
     # fixed assets
     assets = load_fixed_assets()
