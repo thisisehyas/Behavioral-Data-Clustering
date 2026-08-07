@@ -148,4 +148,51 @@ def run_dec_single_alpha_single_seed(
         meta=meta,
     )
 
-        
+def run_dec_single_update_interval_single_seed(
+    X,
+    train_idx,
+    val_idx,
+    ae_checkpoint_path,
+    update_interval,
+    seed,
+    config,
+    output_dir,
+):
+    """
+    Run one DEC experiment with:
+    - fixed update interval
+    - fixed random seed
+    - fixed train/validation split
+
+    Saves all artifacts needed for update-interval comparison.
+    """
+    config = config.copy()
+    config["dec"] = config["dec"].copy()
+    config["dec"]["update_interval"] = update_interval
+
+    results = train_dec(
+        X=X,
+        train_idx=train_idx,
+        val_idx=val_idx,
+        ae_checkpoint_path=ae_checkpoint_path,
+        config=config,
+        seed=seed,
+    )
+
+    meta = {
+        "update_interval": update_interval,
+        "seed": seed,
+        "num_clusters": config["dec"]["num_clusters"],
+        "alpha": config["dec"]["alpha"],
+        "learning_rate": config["dec"]["learning_rate"],
+        "max_epochs": config["dec"]["max_epochs"],
+        "train_size": len(train_idx),
+        "val_size": len(val_idx),
+        "ae_checkpoint_path": ae_checkpoint_path,
+    }
+
+    save_experiment_results(
+        results=results,
+        output_dir=output_dir,
+        meta=meta,
+    )
