@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from analysis.compute_run_metrics import compute_all_run_metrics
+from analysis.compute_all_run_metrics import compute_all_run_metrics
 
 def main():
     compute_all_run_metrics(

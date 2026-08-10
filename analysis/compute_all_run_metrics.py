@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from compute_run_metrics import (
+from analysis.compute_run_metrics import (
     compute_metrics_for_run,
     save_run_metrics,
 )
