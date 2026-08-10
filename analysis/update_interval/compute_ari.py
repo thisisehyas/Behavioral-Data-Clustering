@@ -11,6 +11,7 @@ def main():
             "analysis/update_interval/aggregated"
         ),
         prefix="update_interval_",
+        parameter_name="update_interval"
     )
 
 

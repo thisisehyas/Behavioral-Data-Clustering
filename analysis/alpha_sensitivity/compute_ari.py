@@ -11,6 +11,7 @@ def main():
             "analysis/alpha_sensitivity/aggregated"
         ),
         prefix="alpha_",
+        parameter_name="alpha",
     )
 
 

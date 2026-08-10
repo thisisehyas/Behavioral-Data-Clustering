@@ -11,6 +11,7 @@ def main():
             "analysis/learning_rate/aggregated"
         ),
         prefix="lr_",
+        parameter_name="lr"
     )
 
 

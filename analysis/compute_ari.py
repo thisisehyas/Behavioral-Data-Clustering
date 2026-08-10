@@ -132,6 +132,7 @@ def compute_ari(
     runs_root: Path,
     output_dir: Path,
     prefix: str,
+    parameter_name: str,
 ):
     """
     Compute ARI stability for every hyperparameter value.
@@ -191,7 +192,7 @@ def compute_ari(
         ari_summaries[parameter_value] = summary
 
         np.save(
-            output_dir / f"ari_matrix_{parameter_value}.npy",
+            output_dir / f"ari_matrix_{parameter_name}_{parameter_value}.npy",
             ari_matrix,
         )
 
