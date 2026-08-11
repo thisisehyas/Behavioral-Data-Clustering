@@ -44,6 +44,21 @@ def save_experiment_results(
         results["Z_val"],
     )
 
+    np.save(
+        os.path.join(output_dir, "full_labels.npy"),
+        results["full_labels"],
+    )
+
+    np.save(
+        os.path.join(output_dir, "q_full.npy"),
+        results["q_full"],
+    )
+
+    np.save(
+        os.path.join(output_dir, "Z_full.npy"),
+        results["Z_full"],
+    )
+
     with open(
         os.path.join(output_dir, "meta.json"),
         "w",

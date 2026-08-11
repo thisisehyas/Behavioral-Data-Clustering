@@ -182,11 +182,24 @@ def train_dec(
   dec_model.eval()
 
   with torch.no_grad():
+    # validation inference
     q_val, _ = dec_model(X_val)
 
     val_labels = torch.argmax(q_val, dim=1).cpu().numpy()
 
     Z_val = autoencoder.encoder(X_val).cpu().numpy()
+
+    # Full dataset inference
+    q_full, _ = dec_model(X_tensor)
+
+    full_labels = torch.argmax(
+        q_full,
+        dim=1,
+    ).cpu().numpy()
+
+    z_full = autoencoder.encoder(
+        X_tensor
+    ).cpu().numpy()
 
   return {
     "train_kl": train_kl,
@@ -197,6 +210,9 @@ def train_dec(
     "q_val": q_val.cpu().numpy(),
     "p_val": p_val.cpu().numpy(),
     "Z_val": Z_val,
+    "full_labels": full_labels,
+    "q_full": q_full.cpu().numpy(),
+    "Z_full": z_full,
     "p_train": p_train.cpu().numpy(),
     "seed": seed,
 }
