@@ -12,21 +12,25 @@ dataset.
 - Number of clusters: 5
 - Learning rate: 1e-3
 - Update interval: 20
+- Batch size: 256
 - Maximum epochs: 50
+- KMeans initialization: `n_init = 20`
 
 ## Experimental Variables
 
 - α ∈ {0.1, 0.5, 1.0, 2.0, 5.0}
-- Random seed ∈ {0, 1, 2}
+- Random seed ∈ {0, 1, 2, 3, 4}
 
-Total runs: 15
+Total runs: 25
 
 ## Validation Protocol
 
 - Fixed 80/20 train-validation split
+- KMeans initialization is performed using the training split only
+- DEC optimization is performed using the training split only
 - Validation data is never used for optimization
 - Same data split for all experiments
-- Results aggregated across three random seeds
+- Results aggregated across five random seeds
 
 ## Metrics Evaluated
 
