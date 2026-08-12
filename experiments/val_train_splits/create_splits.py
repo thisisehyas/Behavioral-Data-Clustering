@@ -9,7 +9,7 @@ TRAIN_RATIO = 0.8
 
 # paths
 DATA_PATH = Path("dataset/X_scaled.csv")
-SPLIT_DIR = Path("experiments/lr-tuning/splits")
+SPLIT_DIR = Path("experiments/val_train_splits")
 SPLIT_DIR.mkdir(parents=True, exist_ok=True)
 
 # load data

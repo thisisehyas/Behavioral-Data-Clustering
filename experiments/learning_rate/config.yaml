@@ -5,7 +5,7 @@ experiment:
   description: >
     Systematic learning rate tuning for Deep Embedded Clustering (DEC)
     on the roommate compatibility dataset. 
-  output_dir: experiments/lr-tuning/runs
+  output_dir: experiments/learning_rate/runs
   ae_checkpoint_path: models/autoencoder_weights.pth
 
 dataset:
