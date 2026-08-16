@@ -10,7 +10,7 @@ def main():
             "analysis/alpha_sensitivity/aggregated/aggregated_alpha_metrics.json"
         ),
         ari_summary_path=Path(
-            "analysis/alpha_sensitivity/aggregated/ari_summary_alpha.json"
+            "analysis/alpha_sensitivity/aggregated/ari_summary.json"
         ),
         cluster_sizes_path=Path(
             "analysis/alpha_sensitivity/aggregated/aggregated_cluster_sizes.json"

@@ -10,7 +10,7 @@ def main():
             "analysis/update_interval/aggregated/aggregated_update_interval_metrics.json"
         ),
         ari_summary_path=Path(
-            "analysis/update_interval/aggregated/ari_summary_update_interval.json"
+            "analysis/update_interval/aggregated/ari_summary.json"
         ),
         cluster_sizes_path=Path(
             "analysis/update_interval/aggregated/aggregated_cluster_sizes.json"
