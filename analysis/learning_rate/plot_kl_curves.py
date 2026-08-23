@@ -6,7 +6,7 @@ from analysis.plot_kl_curves import plot_kl_curves
 def main():
 
     plot_kl_curves(
-        runs_root=Path("experiments/lr-tuning/runs"),
+        runs_root=Path("experiments/learning_rate/runs"),
         figures_dir=Path("analysis/learning_rate/figures"),
         parameter_prefix="lr_",
         parameter_name="LR",

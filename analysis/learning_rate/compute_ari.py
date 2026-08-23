@@ -6,7 +6,7 @@ from analysis.compute_ari import compute_ari
 def main():
 
     compute_ari(
-        runs_root=Path("experiments/lr-tuning/runs"),
+        runs_root=Path("experiments/learning_rate/runs"),
         output_dir=Path(
             "analysis/learning_rate/aggregated"
         ),
