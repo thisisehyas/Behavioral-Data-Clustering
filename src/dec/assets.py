@@ -4,7 +4,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 
 DATA_DIR = ROOT / "embeddings"
-SPLIT_DIR = ROOT / "experiments" / "learning_rate" / "splits"
+SPLIT_DIR = ROOT / "experiments" / "val_train_splits"
 
 X_PATH = DATA_DIR / "X_scaled.npy"
 TRAIN_IDX_PATH = SPLIT_DIR / "train_idx.npy"
