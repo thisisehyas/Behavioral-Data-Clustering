@@ -1,0 +1,782 @@
+{
+  "alphas": [
+    0.1,
+    0.5,
+    1.0,
+    2.0,
+    5.0
+  ],
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "interpretation": {
+    "entropy": "lower_is_more_confident",
+    "seed_mean_ari": "higher_is_more_stable_across_random_seeds",
+    "imbalance_ratio": "higher_means_greater_cluster_size_imbalance",
+    "ari_note": "ARI here is pairwise inter-seed assignment stability, not ARI against ground-truth labels."
+  },
+  "per_seed": [
+    {
+      "alpha": 0.1,
+      "seed": 0,
+      "entropy": 1.5174977779388428,
+      "seed_mean_ari": 0.5545323974695857,
+      "num_clusters": 5,
+      "smallest_cluster": 2563,
+      "largest_cluster": 5919,
+      "imbalance_ratio": 2.3094030433086226
+    },
+    {
+      "alpha": 0.1,
+      "seed": 1,
+      "entropy": 1.4510118961334229,
+      "seed_mean_ari": 0.8517507556169326,
+      "num_clusters": 5,
+      "smallest_cluster": 98,
+      "largest_cluster": 5731,
+      "imbalance_ratio": 58.47959183673469
+    },
+    {
+      "alpha": 0.1,
+      "seed": 2,
+      "entropy": 1.4492113590240479,
+      "seed_mean_ari": 0.8489706558955354,
+      "num_clusters": 5,
+      "smallest_cluster": 98,
+      "largest_cluster": 5748,
+      "imbalance_ratio": 58.6530612244898
+    },
+    {
+      "alpha": 0.1,
+      "seed": 3,
+      "entropy": 1.4501572847366333,
+      "seed_mean_ari": 0.8504327012171087,
+      "num_clusters": 5,
+      "smallest_cluster": 98,
+      "largest_cluster": 5780,
+      "imbalance_ratio": 58.97959183673469
+    },
+    {
+      "alpha": 0.1,
+      "seed": 4,
+      "entropy": 1.4519853591918945,
+      "seed_mean_ari": 0.8512197321775326,
+      "num_clusters": 5,
+      "smallest_cluster": 98,
+      "largest_cluster": 5819,
+      "imbalance_ratio": 59.37755102040816
+    },
+    {
+      "alpha": 0.5,
+      "seed": 0,
+      "entropy": 1.5276187658309937,
+      "seed_mean_ari": 0.5513093589069059,
+      "num_clusters": 5,
+      "smallest_cluster": 2614,
+      "largest_cluster": 5588,
+      "imbalance_ratio": 2.137719969395562
+    },
+    {
+      "alpha": 0.5,
+      "seed": 1,
+      "entropy": 1.447938084602356,
+      "seed_mean_ari": 0.8503071766358592,
+      "num_clusters": 5,
+      "smallest_cluster": 97,
+      "largest_cluster": 5558,
+      "imbalance_ratio": 57.29896907216495
+    },
+    {
+      "alpha": 0.5,
+      "seed": 2,
+      "entropy": 1.445746660232544,
+      "seed_mean_ari": 0.8422585091956604,
+      "num_clusters": 5,
+      "smallest_cluster": 97,
+      "largest_cluster": 5590,
+      "imbalance_ratio": 57.628865979381445
+    },
+    {
+      "alpha": 0.5,
+      "seed": 3,
+      "entropy": 1.4463149309158325,
+      "seed_mean_ari": 0.8467541575606067,
+      "num_clusters": 5,
+      "smallest_cluster": 98,
+      "largest_cluster": 5396,
+      "imbalance_ratio": 55.06122448979592
+    },
+    {
+      "alpha": 0.5,
+      "seed": 4,
+      "entropy": 1.4493649005889893,
+      "seed_mean_ari": 0.8463646567858054,
+      "num_clusters": 5,
+      "smallest_cluster": 97,
+      "largest_cluster": 5490,
+      "imbalance_ratio": 56.597938144329895
+    },
+    {
+      "alpha": 1.0,
+      "seed": 0,
+      "entropy": 1.5200059413909912,
+      "seed_mean_ari": 0.5521105235521191,
+      "num_clusters": 5,
+      "smallest_cluster": 2887,
+      "largest_cluster": 5146,
+      "imbalance_ratio": 1.7824731555247662
+    },
+    {
+      "alpha": 1.0,
+      "seed": 1,
+      "entropy": 1.4266948699951172,
+      "seed_mean_ari": 0.8492923431692517,
+      "num_clusters": 5,
+      "smallest_cluster": 98,
+      "largest_cluster": 5290,
+      "imbalance_ratio": 53.97959183673469
+    },
+    {
+      "alpha": 1.0,
+      "seed": 2,
+      "entropy": 1.4245237112045288,
+      "seed_mean_ari": 0.8405776883991449,
+      "num_clusters": 5,
+      "smallest_cluster": 98,
+      "largest_cluster": 5358,
+      "imbalance_ratio": 54.673469387755105
+    },
+    {
+      "alpha": 1.0,
+      "seed": 3,
+      "entropy": 1.4245914220809937,
+      "seed_mean_ari": 0.8437985223539126,
+      "num_clusters": 5,
+      "smallest_cluster": 98,
+      "largest_cluster": 5346,
+      "imbalance_ratio": 54.55102040816327
+    },
+    {
+      "alpha": 1.0,
+      "seed": 4,
+      "entropy": 1.4285569190979004,
+      "seed_mean_ari": 0.8433842800083433,
+      "num_clusters": 5,
+      "smallest_cluster": 97,
+      "largest_cluster": 5224,
+      "imbalance_ratio": 53.855670103092784
+    },
+    {
+      "alpha": 2.0,
+      "seed": 0,
+      "entropy": 1.4976975917816162,
+      "seed_mean_ari": 0.5742135467437044,
+      "num_clusters": 5,
+      "smallest_cluster": 3391,
+      "largest_cluster": 4604,
+      "imbalance_ratio": 1.3577115895016219
+    },
+    {
+      "alpha": 2.0,
+      "seed": 1,
+      "entropy": 1.3842161893844604,
+      "seed_mean_ari": 0.8582278896692529,
+      "num_clusters": 5,
+      "smallest_cluster": 98,
+      "largest_cluster": 5694,
+      "imbalance_ratio": 58.10204081632653
+    },
+    {
+      "alpha": 2.0,
+      "seed": 2,
+      "entropy": 1.3822704553604126,
+      "seed_mean_ari": 0.8516592312284386,
+      "num_clusters": 5,
+      "smallest_cluster": 98,
+      "largest_cluster": 5753,
+      "imbalance_ratio": 58.704081632653065
+    },
+    {
+      "alpha": 2.0,
+      "seed": 3,
+      "entropy": 1.3816951513290405,
+      "seed_mean_ari": 0.8521422541213679,
+      "num_clusters": 5,
+      "smallest_cluster": 98,
+      "largest_cluster": 5797,
+      "imbalance_ratio": 59.1530612244898
+    },
+    {
+      "alpha": 2.0,
+      "seed": 4,
+      "entropy": 1.3869467973709106,
+      "seed_mean_ari": 0.8524643491000392,
+      "num_clusters": 5,
+      "smallest_cluster": 98,
+      "largest_cluster": 5587,
+      "imbalance_ratio": 57.01020408163265
+    },
+    {
+      "alpha": 5.0,
+      "seed": 0,
+      "entropy": 1.4327659606933594,
+      "seed_mean_ari": 0.6138577791629852,
+      "num_clusters": 5,
+      "smallest_cluster": 3157,
+      "largest_cluster": 4649,
+      "imbalance_ratio": 1.4726005701615457
+    },
+    {
+      "alpha": 5.0,
+      "seed": 1,
+      "entropy": 1.288172721862793,
+      "seed_mean_ari": 0.8656893824358638,
+      "num_clusters": 5,
+      "smallest_cluster": 98,
+      "largest_cluster": 5970,
+      "imbalance_ratio": 60.91836734693877
+    },
+    {
+      "alpha": 5.0,
+      "seed": 2,
+      "entropy": 1.2869797945022583,
+      "seed_mean_ari": 0.8614812317039128,
+      "num_clusters": 5,
+      "smallest_cluster": 99,
+      "largest_cluster": 6070,
+      "imbalance_ratio": 61.313131313131315
+    },
+    {
+      "alpha": 5.0,
+      "seed": 3,
+      "entropy": 1.2852554321289062,
+      "seed_mean_ari": 0.8619847496559627,
+      "num_clusters": 5,
+      "smallest_cluster": 99,
+      "largest_cluster": 6084,
+      "imbalance_ratio": 61.45454545454545
+    },
+    {
+      "alpha": 5.0,
+      "seed": 4,
+      "entropy": 1.2936218976974487,
+      "seed_mean_ari": 0.859105244646944,
+      "num_clusters": 5,
+      "smallest_cluster": 98,
+      "largest_cluster": 5793,
+      "imbalance_ratio": 59.11224489795919
+    }
+  ],
+  "summary_by_alpha": {
+    "0.1": {
+      "entropy": {
+        "mean": 1.4639727354049683,
+        "std": 0.02677825846158808,
+        "min": 1.4492113590240479,
+        "max": 1.5174977779388428
+      },
+      "seed_mean_ari": {
+        "mean": 0.791381248475339,
+        "std": 0.11842813319897004,
+        "min": 0.5545323974695857,
+        "max": 0.8517507556169326
+      },
+      "imbalance_ratio": {
+        "mean": 47.55983979233519,
+        "std": 22.627291520892747,
+        "min": 2.3094030433086226,
+        "max": 59.37755102040816
+      },
+      "smallest_cluster": {
+        "mean": 591.0,
+        "std": 986.0,
+        "min": 98.0,
+        "max": 2563.0
+      },
+      "largest_cluster": {
+        "mean": 5799.4,
+        "std": 66.91068673986241,
+        "min": 5731.0,
+        "max": 5919.0
+      }
+    },
+    "0.5": {
+      "entropy": {
+        "mean": 1.463396668434143,
+        "std": 0.032136100146583496,
+        "min": 1.445746660232544,
+        "max": 1.5276187658309937
+      },
+      "seed_mean_ari": {
+        "mean": 0.7873987718169675,
+        "std": 0.11807227149273337,
+        "min": 0.5513093589069059,
+        "max": 0.8503071766358592
+      },
+      "imbalance_ratio": {
+        "mean": 45.74494353101356,
+        "std": 21.82151987693331,
+        "min": 2.137719969395562,
+        "max": 57.628865979381445
+      },
+      "smallest_cluster": {
+        "mean": 600.6,
+        "std": 1006.7000745008417,
+        "min": 97.0,
+        "max": 2614.0
+      },
+      "largest_cluster": {
+        "mean": 5524.4,
+        "std": 73.6847338327282,
+        "min": 5396.0,
+        "max": 5590.0
+      }
+    },
+    "1.0": {
+      "entropy": {
+        "mean": 1.4448745727539063,
+        "std": 0.037595355387438065,
+        "min": 1.4245237112045288,
+        "max": 1.5200059413909912
+      },
+      "seed_mean_ari": {
+        "mean": 0.7858326714965542,
+        "std": 0.11689518104023251,
+        "min": 0.5521105235521191,
+        "max": 0.8492923431692517
+      },
+      "imbalance_ratio": {
+        "mean": 43.768444978254124,
+        "std": 20.995356396389894,
+        "min": 1.7824731555247662,
+        "max": 54.673469387755105
+      },
+      "smallest_cluster": {
+        "mean": 655.6,
+        "std": 1115.7000672223696,
+        "min": 97.0,
+        "max": 2887.0
+      },
+      "largest_cluster": {
+        "mean": 5272.8,
+        "std": 79.212120284714,
+        "min": 5146.0,
+        "max": 5358.0
+      }
+    },
+    "2.0": {
+      "entropy": {
+        "mean": 1.4065652370452881,
+        "std": 0.04560312876775088,
+        "min": 1.3816951513290405,
+        "max": 1.4976975917816162
+      },
+      "seed_mean_ari": {
+        "mean": 0.7977414541725606,
+        "std": 0.11178953727928226,
+        "min": 0.5742135467437044,
+        "max": 0.8582278896692529
+      },
+      "imbalance_ratio": {
+        "mean": 46.86541986892073,
+        "std": 22.765192080551518,
+        "min": 1.3577115895016219,
+        "max": 59.1530612244898
+      },
+      "smallest_cluster": {
+        "mean": 756.6,
+        "std": 1317.2,
+        "min": 98.0,
+        "max": 3391.0
+      },
+      "largest_cluster": {
+        "mean": 5487.0,
+        "std": 447.0780692451823,
+        "min": 4604.0,
+        "max": 5797.0
+      }
+    },
+    "5.0": {
+      "entropy": {
+        "mean": 1.317359161376953,
+        "std": 0.05777125691951062,
+        "min": 1.2852554321289062,
+        "max": 1.4327659606933594
+      },
+      "seed_mean_ari": {
+        "mean": 0.8124236775211336,
+        "std": 0.09930535082634089,
+        "min": 0.6138577791629852,
+        "max": 0.8656893824358638
+      },
+      "imbalance_ratio": {
+        "mean": 48.85417791654725,
+        "std": 23.70561645884759,
+        "min": 1.4726005701615457,
+        "max": 61.45454545454545
+      },
+      "smallest_cluster": {
+        "mean": 710.2,
+        "std": 1223.4000817394121,
+        "min": 98.0,
+        "max": 3157.0
+      },
+      "largest_cluster": {
+        "mean": 5713.2,
+        "std": 542.1503112606318,
+        "min": 4649.0,
+        "max": 6084.0
+      }
+    }
+  },
+  "summary_seeds_1_to_4": {
+    "0.1": {
+      "entropy": {
+        "mean": 1.4505914747714996,
+        "std": 0.0010262685274481786,
+        "min": 1.4492113590240479,
+        "max": 1.4519853591918945
+      },
+      "seed_mean_ari": {
+        "mean": 0.8505934612267774,
+        "std": 0.0010477221164340803,
+        "min": 0.8489706558955354,
+        "max": 0.8517507556169326
+      },
+      "imbalance_ratio": {
+        "mean": 58.87244897959184,
+        "std": 0.34244539172550703,
+        "min": 58.47959183673469,
+        "max": 59.37755102040816
+      },
+      "smallest_cluster": {
+        "mean": 98.0,
+        "std": 0.0,
+        "min": 98.0,
+        "max": 98.0
+      },
+      "largest_cluster": {
+        "mean": 5769.5,
+        "std": 33.55964838909967,
+        "min": 5731.0,
+        "max": 5819.0
+      }
+    },
+    "0.5": {
+      "entropy": {
+        "mean": 1.4473411440849304,
+        "std": 0.0014183987973253403,
+        "min": 1.445746660232544,
+        "max": 1.4493649005889893
+      },
+      "seed_mean_ari": {
+        "mean": 0.8464211250444829,
+        "std": 0.0028523177854483796,
+        "min": 0.8422585091956604,
+        "max": 0.8503071766358592
+      },
+      "imbalance_ratio": {
+        "mean": 56.64674942141806,
+        "std": 0.9882073739621426,
+        "min": 55.06122448979592,
+        "max": 57.628865979381445
+      },
+      "smallest_cluster": {
+        "mean": 97.25,
+        "std": 0.4330127018922193,
+        "min": 97.0,
+        "max": 98.0
+      },
+      "largest_cluster": {
+        "mean": 5508.5,
+        "std": 74.31520705750607,
+        "min": 5396.0,
+        "max": 5590.0
+      }
+    },
+    "1.0": {
+      "entropy": {
+        "mean": 1.426091730594635,
+        "std": 0.0016696213595378123,
+        "min": 1.4245237112045288,
+        "max": 1.4285569190979004
+      },
+      "seed_mean_ari": {
+        "mean": 0.8442632084826631,
+        "std": 0.003156885428832028,
+        "min": 0.8405776883991449,
+        "max": 0.8492923431692517
+      },
+      "imbalance_ratio": {
+        "mean": 54.264937933936466,
+        "std": 0.3527264107529648,
+        "min": 53.855670103092784,
+        "max": 54.673469387755105
+      },
+      "smallest_cluster": {
+        "mean": 97.75,
+        "std": 0.4330127018922193,
+        "min": 97.0,
+        "max": 98.0
+      },
+      "largest_cluster": {
+        "mean": 5304.5,
+        "std": 53.09190145398826,
+        "min": 5224.0,
+        "max": 5358.0
+      }
+    },
+    "2.0": {
+      "entropy": {
+        "mean": 1.383782148361206,
+        "std": 0.0020520823147115474,
+        "min": 1.3816951513290405,
+        "max": 1.3869467973709106
+      },
+      "seed_mean_ari": {
+        "mean": 0.8536234310297746,
+        "std": 0.002673783656920993,
+        "min": 0.8516592312284386,
+        "max": 0.8582278896692529
+      },
+      "imbalance_ratio": {
+        "mean": 58.24234693877551,
+        "std": 0.8031907099405345,
+        "min": 57.01020408163265,
+        "max": 59.1530612244898
+      },
+      "smallest_cluster": {
+        "mean": 98.0,
+        "std": 0.0,
+        "min": 98.0,
+        "max": 98.0
+      },
+      "largest_cluster": {
+        "mean": 5707.75,
+        "std": 78.71268957417222,
+        "min": 5587.0,
+        "max": 5797.0
+      }
+    },
+    "5.0": {
+      "entropy": {
+        "mean": 1.2885074615478516,
+        "std": 0.0031296553216343514,
+        "min": 1.2852554321289062,
+        "max": 1.2936218976974487
+      },
+      "seed_mean_ari": {
+        "mean": 0.8620651521106708,
+        "std": 0.002358152096453144,
+        "min": 0.859105244646944,
+        "max": 0.8656893824358638
+      },
+      "imbalance_ratio": {
+        "mean": 60.69957225314368,
+        "std": 0.9372724631228577,
+        "min": 59.11224489795919,
+        "max": 61.45454545454545
+      },
+      "smallest_cluster": {
+        "mean": 98.5,
+        "std": 0.5,
+        "min": 98.0,
+        "max": 99.0
+      },
+      "largest_cluster": {
+        "mean": 5979.25,
+        "std": 116.17094085871905,
+        "min": 5793.0,
+        "max": 6084.0
+      }
+    }
+  },
+  "relationships": {
+    "entropy_vs_seed_ari": {
+      "pearson_r": -0.6318939641232179,
+      "interpretation": "Negative values indicate that lower entropy tends to be associated with greater assignment stability."
+    },
+    "entropy_vs_cluster_imbalance": {
+      "pearson_r": -0.6205476961002817,
+      "interpretation": "Positive values indicate that higher entropy tends to be associated with greater cluster-size imbalance."
+    }
+  },
+  "focused_alpha_2_and_5": {
+    "2.0": {
+      "per_seed": [
+        {
+          "alpha": 2.0,
+          "seed": 0,
+          "entropy": 1.4976975917816162,
+          "seed_mean_ari": 0.5742135467437044,
+          "num_clusters": 5,
+          "smallest_cluster": 3391,
+          "largest_cluster": 4604,
+          "imbalance_ratio": 1.3577115895016219
+        },
+        {
+          "alpha": 2.0,
+          "seed": 1,
+          "entropy": 1.3842161893844604,
+          "seed_mean_ari": 0.8582278896692529,
+          "num_clusters": 5,
+          "smallest_cluster": 98,
+          "largest_cluster": 5694,
+          "imbalance_ratio": 58.10204081632653
+        },
+        {
+          "alpha": 2.0,
+          "seed": 2,
+          "entropy": 1.3822704553604126,
+          "seed_mean_ari": 0.8516592312284386,
+          "num_clusters": 5,
+          "smallest_cluster": 98,
+          "largest_cluster": 5753,
+          "imbalance_ratio": 58.704081632653065
+        },
+        {
+          "alpha": 2.0,
+          "seed": 3,
+          "entropy": 1.3816951513290405,
+          "seed_mean_ari": 0.8521422541213679,
+          "num_clusters": 5,
+          "smallest_cluster": 98,
+          "largest_cluster": 5797,
+          "imbalance_ratio": 59.1530612244898
+        },
+        {
+          "alpha": 2.0,
+          "seed": 4,
+          "entropy": 1.3869467973709106,
+          "seed_mean_ari": 0.8524643491000392,
+          "num_clusters": 5,
+          "smallest_cluster": 98,
+          "largest_cluster": 5587,
+          "imbalance_ratio": 57.01020408163265
+        }
+      ],
+      "summary": {
+        "entropy": {
+          "mean": 1.4065652370452881,
+          "std": 0.04560312876775088,
+          "min": 1.3816951513290405,
+          "max": 1.4976975917816162
+        },
+        "seed_mean_ari": {
+          "mean": 0.7977414541725606,
+          "std": 0.11178953727928226,
+          "min": 0.5742135467437044,
+          "max": 0.8582278896692529
+        },
+        "imbalance_ratio": {
+          "mean": 46.86541986892073,
+          "std": 22.765192080551518,
+          "min": 1.3577115895016219,
+          "max": 59.1530612244898
+        },
+        "smallest_cluster": {
+          "mean": 756.6,
+          "std": 1317.2,
+          "min": 98.0,
+          "max": 3391.0
+        },
+        "largest_cluster": {
+          "mean": 5487.0,
+          "std": 447.0780692451823,
+          "min": 4604.0,
+          "max": 5797.0
+        }
+      }
+    },
+    "5.0": {
+      "per_seed": [
+        {
+          "alpha": 5.0,
+          "seed": 0,
+          "entropy": 1.4327659606933594,
+          "seed_mean_ari": 0.6138577791629852,
+          "num_clusters": 5,
+          "smallest_cluster": 3157,
+          "largest_cluster": 4649,
+          "imbalance_ratio": 1.4726005701615457
+        },
+        {
+          "alpha": 5.0,
+          "seed": 1,
+          "entropy": 1.288172721862793,
+          "seed_mean_ari": 0.8656893824358638,
+          "num_clusters": 5,
+          "smallest_cluster": 98,
+          "largest_cluster": 5970,
+          "imbalance_ratio": 60.91836734693877
+        },
+        {
+          "alpha": 5.0,
+          "seed": 2,
+          "entropy": 1.2869797945022583,
+          "seed_mean_ari": 0.8614812317039128,
+          "num_clusters": 5,
+          "smallest_cluster": 99,
+          "largest_cluster": 6070,
+          "imbalance_ratio": 61.313131313131315
+        },
+        {
+          "alpha": 5.0,
+          "seed": 3,
+          "entropy": 1.2852554321289062,
+          "seed_mean_ari": 0.8619847496559627,
+          "num_clusters": 5,
+          "smallest_cluster": 99,
+          "largest_cluster": 6084,
+          "imbalance_ratio": 61.45454545454545
+        },
+        {
+          "alpha": 5.0,
+          "seed": 4,
+          "entropy": 1.2936218976974487,
+          "seed_mean_ari": 0.859105244646944,
+          "num_clusters": 5,
+          "smallest_cluster": 98,
+          "largest_cluster": 5793,
+          "imbalance_ratio": 59.11224489795919
+        }
+      ],
+      "summary": {
+        "entropy": {
+          "mean": 1.317359161376953,
+          "std": 0.05777125691951062,
+          "min": 1.2852554321289062,
+          "max": 1.4327659606933594
+        },
+        "seed_mean_ari": {
+          "mean": 0.8124236775211336,
+          "std": 0.09930535082634089,
+          "min": 0.6138577791629852,
+          "max": 0.8656893824358638
+        },
+        "imbalance_ratio": {
+          "mean": 48.85417791654725,
+          "std": 23.70561645884759,
+          "min": 1.4726005701615457,
+          "max": 61.45454545454545
+        },
+        "smallest_cluster": {
+          "mean": 710.2,
+          "std": 1223.4000817394121,
+          "min": 98.0,
+          "max": 3157.0
+        },
+        "largest_cluster": {
+          "mean": 5713.2,
+          "std": 542.1503112606318,
+          "min": 4649.0,
+          "max": 6084.0
+        }
+      }
+    }
+  }
+}

@@ -4,7 +4,7 @@ from analysis.compute_all_run_metrics import compute_all_run_metrics
 
 def main():
     compute_all_run_metrics(
-        runs_root=Path("experiments/lr-tuning/runs"),
+        runs_root=Path("experiments/learning_rate/runs"),
         sweep_parameter="learning_rate",
     )
 

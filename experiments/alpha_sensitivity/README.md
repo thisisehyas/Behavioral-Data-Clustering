@@ -10,7 +10,7 @@ dataset.
 - Latent dimension: 5
 - Input features: 7 standardized composite features
 - Number of clusters: 5
-- Learning rate: 1e-3
+- Learning rate: 3e-3
 - Update interval: 20
 - Batch size: 256
 - Maximum epochs: 50

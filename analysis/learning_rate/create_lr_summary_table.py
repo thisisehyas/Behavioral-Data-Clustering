@@ -10,7 +10,7 @@ def main():
             "analysis/learning_rate/aggregated/aggregated_lr_metrics.json"
         ),
         ari_summary_path=Path(
-            "analysis/learning_rate/aggregated/ari_summary_learning_rate.json"
+            "analysis/learning_rate/aggregated/ari_summary.json"
         ),
         cluster_sizes_path=Path(
             "analysis/learning_rate/aggregated/aggregated_cluster_sizes.json"

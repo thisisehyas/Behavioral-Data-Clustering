@@ -18,10 +18,10 @@ dataset.
 
 ## Experimental Variables
 
-- Update interval ∈ {1, 5, 10, 20, 50, 100}
+- Update interval ∈ {1, 5, 10, 20, 50}
 - Random seed ∈ {0, 1, 2, 3, 4}
 
-Total runs: 30
+Total runs: 25
 
 ## Validation Protocol
 
