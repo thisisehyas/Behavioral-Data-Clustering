@@ -1,0 +1,17 @@
+{
+  "silhouette_score": 0.23581914603710175,
+  "davies_bouldin_index": 1.0983912028937404,
+  "calinski_harabasz_score": 33874.73397790442,
+  "entropy_metrics": {
+    "mean_entropy": 1.4455499649047852,
+    "std_entropy": 0.06497330963611603
+  },
+  "optimization_metrics": {
+    "final_train_kl": 0.06505694311788625,
+    "minimum_train_kl": 0.03404586334400775,
+    "minimum_train_kl_epoch": 4,
+    "maximum_train_kl": 0.06519367675418439,
+    "mean_train_kl": 0.051648930214307345,
+    "std_train_kl": 0.014294692176717567
+  }
+}
