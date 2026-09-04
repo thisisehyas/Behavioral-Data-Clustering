@@ -2,6 +2,7 @@ import os
 import numpy as np
 import json
 from src.dec.train_dec import train_dec
+from src.dec.train_dec import train_dec_final
 
 def save_experiment_results(
     results,
@@ -211,3 +212,60 @@ def run_dec_single_update_interval_single_seed(
         output_dir=output_dir,
         meta=meta,
     )
+
+def run_dec_final_single_seed(
+    X,
+    ae_checkpoint_path,
+    seed,
+    config,
+    output_dir,
+):
+    """
+    Run one final DEC configuration with a fixed random seed
+    on the full dataset.
+    """
+    results = train_dec_final(
+        X=X,
+        ae_checkpoint_path=ae_checkpoint_path,
+        config=config,
+        seed=seed,
+    )
+
+    meta = {
+        "seed": seed,
+        "num_clusters": config["dec"]["num_clusters"],
+        "alpha": config["dec"]["alpha"],
+        "learning_rate": config["dec"]["learning_rate"],
+        "max_epochs": config["dec"]["max_epochs"],
+        "update_interval": config["dec"]["update_interval"],
+        "batch_size": config["dec"]["batch_size"],
+        "n_init": config["dec"]["n_init"],
+        "ae_checkpoint_path": ae_checkpoint_path,
+    }
+
+    # Save the relevant full-dataset outputs
+    os.makedirs(output_dir, exist_ok=True)
+
+    np.save(
+        os.path.join(output_dir, "train_kl.npy"),
+        np.array(results["train_kl"]),
+    )
+    np.save(
+        os.path.join(output_dir, "full_labels.npy"),
+        results["full_labels"],
+    )
+    np.save(
+        os.path.join(output_dir, "q_full.npy"),
+        results["q_full"],
+    )
+    np.save(
+        os.path.join(output_dir, "Z_full.npy"),
+        results["Z_full"],
+    )
+    np.save(
+        os.path.join(output_dir, "cluster_centers.npy"),
+        results["cluster_centers"],
+    )
+
+    with open(os.path.join(output_dir, "meta.json"), "w") as f:
+        json.dump(meta, f, indent=2)
