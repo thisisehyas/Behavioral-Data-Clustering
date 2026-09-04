@@ -1,0 +1,250 @@
+{
+  "experiment": "final_stability",
+  "seeds": [
+    42,
+    43,
+    44,
+    45,
+    46
+  ],
+  "feature_space": {
+    "n_samples": 99997,
+    "n_features": 5,
+    "description": "DEC latent representation (Z_full) used for clustering and internal clustering evaluation."
+  },
+  "metrics": {
+    "42": {
+      "seed": 42,
+      "n_samples": 99997,
+      "n_features": 5,
+      "n_clusters": 5,
+      "silhouette": 0.23581914603710175,
+      "davies_bouldin": 1.0983912028937404,
+      "calinski_harabasz": 33874.73397790442,
+      "mean_entropy": 1.4455499649047852,
+      "std_entropy": 0.06497330963611603,
+      "final_kl": 0.06505694373718003,
+      "min_cluster_size": 489,
+      "max_cluster_size": 28258,
+      "min_cluster_percentage": 0.4890146704401132,
+      "max_cluster_percentage": 28.258847765432964,
+      "cluster_size_ratio": 57.787321063394685,
+      "cluster_sizes": {
+        "0": {
+          "count": 489,
+          "percentage": 0.4890146704401132
+        },
+        "1": {
+          "count": 28258,
+          "percentage": 28.258847765432964
+        },
+        "2": {
+          "count": 20515,
+          "percentage": 20.515615468464055
+        },
+        "3": {
+          "count": 25483,
+          "percentage": 25.483764512935387
+        },
+        "4": {
+          "count": 25252,
+          "percentage": 25.252757582727483
+        }
+      }
+    },
+    "43": {
+      "seed": 43,
+      "n_samples": 99997,
+      "n_features": 5,
+      "n_clusters": 5,
+      "silhouette": 0.2347393035888672,
+      "davies_bouldin": 1.1109559655191337,
+      "calinski_harabasz": 33779.77975217955,
+      "mean_entropy": 1.4486531019210815,
+      "std_entropy": 0.06330522894859314,
+      "final_kl": 0.0652151276807651,
+      "min_cluster_size": 481,
+      "max_cluster_size": 27327,
+      "min_cluster_percentage": 0.481014430432913,
+      "max_cluster_percentage": 27.327819834595036,
+      "cluster_size_ratio": 56.812889812889814,
+      "cluster_sizes": {
+        "0": {
+          "count": 26802,
+          "percentage": 26.802804084122524
+        },
+        "1": {
+          "count": 24950,
+          "percentage": 24.950748522455672
+        },
+        "2": {
+          "count": 27327,
+          "percentage": 27.327819834595036
+        },
+        "3": {
+          "count": 20437,
+          "percentage": 20.437613128393853
+        },
+        "4": {
+          "count": 481,
+          "percentage": 0.481014430432913
+        }
+      }
+    },
+    "44": {
+      "seed": 44,
+      "n_samples": 99997,
+      "n_features": 5,
+      "n_clusters": 5,
+      "silhouette": 0.2358473837375641,
+      "davies_bouldin": 1.0981638033236285,
+      "calinski_harabasz": 33834.48859462523,
+      "mean_entropy": 1.446908712387085,
+      "std_entropy": 0.06432967633008957,
+      "final_kl": 0.06514169840747133,
+      "min_cluster_size": 484,
+      "max_cluster_size": 27799,
+      "min_cluster_percentage": 0.48401452043561305,
+      "max_cluster_percentage": 27.79983399501985,
+      "cluster_size_ratio": 57.43595041322314,
+      "cluster_sizes": {
+        "0": {
+          "count": 24807,
+          "percentage": 24.80774423232697
+        },
+        "1": {
+          "count": 21278,
+          "percentage": 21.278638359150776
+        },
+        "2": {
+          "count": 27799,
+          "percentage": 27.79983399501985
+        },
+        "3": {
+          "count": 484,
+          "percentage": 0.48401452043561305
+        },
+        "4": {
+          "count": 25629,
+          "percentage": 25.629768893066792
+        }
+      }
+    },
+    "45": {
+      "seed": 45,
+      "n_samples": 99997,
+      "n_features": 5,
+      "n_clusters": 5,
+      "silhouette": 0.20118841528892517,
+      "davies_bouldin": 1.3779852308435276,
+      "calinski_harabasz": 32817.13473151959,
+      "mean_entropy": 1.5259957313537598,
+      "std_entropy": 0.06250102072954178,
+      "final_kl": 0.06601366075827643,
+      "min_cluster_size": 12937,
+      "max_cluster_size": 28564,
+      "min_cluster_percentage": 12.93738812164365,
+      "max_cluster_percentage": 28.56485694570837,
+      "cluster_size_ratio": 2.207930741284687,
+      "cluster_sizes": {
+        "0": {
+          "count": 20901,
+          "percentage": 20.901627048811463
+        },
+        "1": {
+          "count": 16687,
+          "percentage": 16.68750062501875
+        },
+        "2": {
+          "count": 12937,
+          "percentage": 12.93738812164365
+        },
+        "3": {
+          "count": 20908,
+          "percentage": 20.908627258817763
+        },
+        "4": {
+          "count": 28564,
+          "percentage": 28.56485694570837
+        }
+      }
+    },
+    "46": {
+      "seed": 46,
+      "n_samples": 99997,
+      "n_features": 5,
+      "n_clusters": 5,
+      "silhouette": 0.23621216416358948,
+      "davies_bouldin": 1.0987841234728961,
+      "calinski_harabasz": 33840.16373591748,
+      "mean_entropy": 1.4478503465652466,
+      "std_entropy": 0.06352109462022781,
+      "final_kl": 0.06512797372344205,
+      "min_cluster_size": 489,
+      "max_cluster_size": 27976,
+      "min_cluster_percentage": 0.4890146704401132,
+      "max_cluster_percentage": 27.976839305179155,
+      "cluster_size_ratio": 57.210633946830264,
+      "cluster_sizes": {
+        "0": {
+          "count": 21406,
+          "percentage": 21.406642199265978
+        },
+        "1": {
+          "count": 27976,
+          "percentage": 27.976839305179155
+        },
+        "2": {
+          "count": 23673,
+          "percentage": 23.67371021130634
+        },
+        "3": {
+          "count": 26453,
+          "percentage": 26.453793613808415
+        },
+        "4": {
+          "count": 489,
+          "percentage": 0.4890146704401132
+        }
+      }
+    }
+  },
+  "summary_across_seeds": {
+    "silhouette": {
+      "mean": 0.22876128256320954,
+      "std": 0.013795228511341722,
+      "min": 0.20118841528892517,
+      "max": 0.23621216416358948
+    },
+    "davies_bouldin": {
+      "mean": 1.1568560652105853,
+      "std": 0.11067086264552813,
+      "min": 1.0981638033236285,
+      "max": 1.3779852308435276
+    },
+    "calinski_harabasz": {
+      "mean": 33629.26015842926,
+      "std": 407.20026601279733,
+      "min": 32817.13473151959,
+      "max": 33874.73397790442
+    },
+    "mean_entropy": {
+      "mean": 1.4629915714263917,
+      "std": 0.031519011910707474,
+      "min": 1.4455499649047852,
+      "max": 1.5259957313537598
+    },
+    "std_entropy": {
+      "mean": 0.06372606605291367,
+      "std": 0.0008532074921679188,
+      "min": 0.06250102072954178,
+      "max": 0.06497330963611603
+    },
+    "final_kl": {
+      "mean": 0.06531108086142698,
+      "std": 0.00035486049144577776,
+      "min": 0.06505694373718003,
+      "max": 0.06601366075827643
+    }
+  }
+}
