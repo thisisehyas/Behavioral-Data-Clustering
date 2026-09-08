@@ -1,0 +1,150 @@
+{
+  "experiment": "final_k_sensitivity",
+  "k_values": [
+    2,
+    3,
+    4,
+    5,
+    6
+  ],
+  "small_cluster_threshold_percentage": 1.0,
+  "cluster_sizes": {
+    "2": {
+      "0": {
+        "count": 51671,
+        "percentage": 51.6725501765053
+      },
+      "1": {
+        "count": 48326,
+        "percentage": 48.3274498234947
+      }
+    },
+    "3": {
+      "0": {
+        "count": 39907,
+        "percentage": 39.90819724591738
+      },
+      "1": {
+        "count": 31152,
+        "percentage": 31.15293458803764
+      },
+      "2": {
+        "count": 28938,
+        "percentage": 28.93886816604498
+      }
+    },
+    "4": {
+      "0": {
+        "count": 28111,
+        "percentage": 28.111843355300657
+      },
+      "1": {
+        "count": 20621,
+        "percentage": 20.621618648559455
+      },
+      "2": {
+        "count": 25660,
+        "percentage": 25.660769823094693
+      },
+      "3": {
+        "count": 25605,
+        "percentage": 25.605768173045192
+      }
+    },
+    "5": {
+      "0": {
+        "count": 489,
+        "percentage": 0.48901467044011315
+      },
+      "1": {
+        "count": 28258,
+        "percentage": 28.258847765432964
+      },
+      "2": {
+        "count": 20515,
+        "percentage": 20.515615468464055
+      },
+      "3": {
+        "count": 25483,
+        "percentage": 25.483764512935387
+      },
+      "4": {
+        "count": 25252,
+        "percentage": 25.25275758272748
+      }
+    },
+    "6": {
+      "0": {
+        "count": 22906,
+        "percentage": 22.90668720061602
+      },
+      "1": {
+        "count": 15855,
+        "percentage": 15.855475664269928
+      },
+      "2": {
+        "count": 26058,
+        "percentage": 26.058781763452902
+      },
+      "3": {
+        "count": 12249,
+        "percentage": 12.249367481024432
+      },
+      "4": {
+        "count": 22435,
+        "percentage": 22.435673070192106
+      },
+      "5": {
+        "count": 494,
+        "percentage": 0.49401482044461337
+      }
+    }
+  },
+  "summary": {
+    "2": {
+      "min_cluster_count": 48326,
+      "max_cluster_count": 51671,
+      "min_cluster_percentage": 48.3274498234947,
+      "max_cluster_percentage": 51.6725501765053,
+      "max_min_size_ratio": 1.0692173985018416,
+      "num_small_clusters": 0,
+      "small_cluster_threshold_percentage": 1.0
+    },
+    "3": {
+      "min_cluster_count": 28938,
+      "max_cluster_count": 39907,
+      "min_cluster_percentage": 28.93886816604498,
+      "max_cluster_percentage": 39.90819724591738,
+      "max_min_size_ratio": 1.3790517658442187,
+      "num_small_clusters": 0,
+      "small_cluster_threshold_percentage": 1.0
+    },
+    "4": {
+      "min_cluster_count": 20621,
+      "max_cluster_count": 28111,
+      "min_cluster_percentage": 20.621618648559455,
+      "max_cluster_percentage": 28.111843355300657,
+      "max_min_size_ratio": 1.3632219581979534,
+      "num_small_clusters": 0,
+      "small_cluster_threshold_percentage": 1.0
+    },
+    "5": {
+      "min_cluster_count": 489,
+      "max_cluster_count": 28258,
+      "min_cluster_percentage": 0.48901467044011315,
+      "max_cluster_percentage": 28.258847765432964,
+      "max_min_size_ratio": 57.787321063394685,
+      "num_small_clusters": 1,
+      "small_cluster_threshold_percentage": 1.0
+    },
+    "6": {
+      "min_cluster_count": 494,
+      "max_cluster_count": 26058,
+      "min_cluster_percentage": 0.49401482044461337,
+      "max_cluster_percentage": 26.058781763452902,
+      "max_min_size_ratio": 52.74898785425101,
+      "num_small_clusters": 1,
+      "small_cluster_threshold_percentage": 1.0
+    }
+  }
+}

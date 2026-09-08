@@ -1,0 +1,86 @@
+{
+  "experiment": "final_k_sensitivity",
+  "k_values": [
+    2,
+    3,
+    4,
+    5,
+    6
+  ],
+  "feature_space": {
+    "n_samples": 99997,
+    "n_features": 5,
+    "description": "DEC latent representation (Z_full) used for clustering and internal clustering evaluation."
+  },
+  "entropy": {
+    "mean_entropy": "Raw assignment entropy. Its scale depends on k.",
+    "normalized_mean_entropy": "Mean assignment entropy divided by log(k), allowing comparison across different numbers of clusters."
+  },
+  "metrics": {
+    "2": {
+      "k": 2,
+      "n_samples": 99997,
+      "n_features": 5,
+      "n_clusters": 2,
+      "silhouette": 0.3146471381187439,
+      "davies_bouldin": 1.1916807959019307,
+      "calinski_harabasz": 58291.8931967044,
+      "mean_entropy": 0.6055409908294678,
+      "normalized_mean_entropy": 0.8736109845246625,
+      "std_entropy": 0.08503665030002594,
+      "final_kl": 0.043817638007499986
+    },
+    "3": {
+      "k": 3,
+      "n_samples": 99997,
+      "n_features": 5,
+      "n_clusters": 3,
+      "silhouette": 0.21382012963294983,
+      "davies_bouldin": 1.467528006009351,
+      "calinski_harabasz": 41589.25727303151,
+      "mean_entropy": 1.0183830261230469,
+      "normalized_mean_entropy": 0.9269721781081405,
+      "std_entropy": 0.07160846143960953,
+      "final_kl": 0.04928307936472051
+    },
+    "4": {
+      "k": 4,
+      "n_samples": 99997,
+      "n_features": 5,
+      "n_clusters": 4,
+      "silhouette": 0.2304343730211258,
+      "davies_bouldin": 1.3156086621168237,
+      "calinski_harabasz": 38120.92672787594,
+      "mean_entropy": 1.3034260272979736,
+      "normalized_mean_entropy": 0.9402231328741947,
+      "std_entropy": 0.06617578864097595,
+      "final_kl": 0.06380446161836614
+    },
+    "5": {
+      "k": 5,
+      "n_samples": 99997,
+      "n_features": 5,
+      "n_clusters": 5,
+      "silhouette": 0.23581914603710175,
+      "davies_bouldin": 1.0983912028937404,
+      "calinski_harabasz": 33874.73397790442,
+      "mean_entropy": 1.4455499649047852,
+      "normalized_mean_entropy": 0.8981706928467639,
+      "std_entropy": 0.06497330963611603,
+      "final_kl": 0.06505694316552423
+    },
+    "6": {
+      "k": 6,
+      "n_samples": 99997,
+      "n_features": 5,
+      "n_clusters": 6,
+      "silhouette": 0.20886287093162537,
+      "davies_bouldin": 1.1939282085853027,
+      "calinski_harabasz": 31342.291226243255,
+      "mean_entropy": 1.6407361030578613,
+      "normalized_mean_entropy": 0.9157122544828747,
+      "std_entropy": 0.06395839899778366,
+      "final_kl": 0.06727807196166814
+    }
+  }
+}

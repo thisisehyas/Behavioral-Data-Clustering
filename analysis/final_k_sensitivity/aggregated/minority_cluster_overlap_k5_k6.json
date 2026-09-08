@@ -1,0 +1,12 @@
+{
+  "k5_cluster": 0,
+  "k6_cluster": 5,
+  "k5_size": 489,
+  "k6_size": 494,
+  "intersection": 488,
+  "union": 495,
+  "k5_recovered_by_k6_percent": 99.79550102249489,
+  "k6_recovered_by_k5_percent": 98.78542510121457,
+  "jaccard_similarity": 0.9858585858585859,
+  "binary_minority_vs_rest_ARI": 0.9927735805560846
+}
