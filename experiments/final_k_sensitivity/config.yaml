@@ -1,0 +1,40 @@
+experiment:
+  name: final_k_sensitivity
+  description: >
+    Sensitivity analysis of the final Deep Embedded Clustering (DEC)
+    configuration to the number of clusters on the full roommate
+    compatibility dataset.
+  output_dir: experiments/final_k_sensitivity/runs
+  ae_checkpoint_path: models/autoencoder_weights.pth
+
+dataset:
+  source: compressed_features_standardized
+  input_dim: 7
+  latent_dim: 5
+
+dec:
+  num_clusters: 5
+  alpha: 0.5
+  learning_rate: 0.003
+  optimizer: adam
+  encoder_frozen: true
+  update_interval: 20
+  max_epochs: 50
+  batch_size: 256
+  n_init: 20
+
+sweep:
+  k_values:
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+  seed: 42
+
+logging:
+  save_kl_train: true
+  save_q_full: true
+  save_cluster_centers: true
+  save_labels_full: true
+  save_embeddings_full: true
