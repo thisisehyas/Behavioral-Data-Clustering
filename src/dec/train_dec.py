@@ -388,3 +388,203 @@ def train_dec_final(
         "p_full": p_full.cpu().numpy(),
         "seed": seed,
     }
+
+def train_dec_encoder_trainable(
+    X,
+    ae_checkpoint_path,
+    config,
+    seed,
+):
+    """
+    Train DEC with the pretrained encoder made trainable.
+
+    The model is trained on the full dataset using:
+    - a pretrained autoencoder encoder
+    - a trainable encoder
+    - fresh KMeans initialization
+    - one fixed random seed
+    - the selected DEC hyperparameters
+    - mini-batch optimization
+    - no train/validation split
+
+    The initial encoder representation is saved to allow
+    comparison with the final representation after DEC training.
+    """
+
+    set_seed(seed)
+
+    device = torch.device(
+        "cuda" if torch.cuda.is_available() else "cpu"
+    )
+
+    # Load pretrained autoencoder
+    autoencoder = Autoencoder()
+
+    autoencoder.load_state_dict(
+        torch.load(
+            ae_checkpoint_path,
+            map_location=device,
+        )
+    )
+
+    autoencoder = autoencoder.to(device)
+
+    # The encoder is trainable in this ablation
+    for param in autoencoder.encoder.parameters():
+        param.requires_grad = True
+
+    X_tensor = torch.tensor(
+        X,
+        dtype=torch.float32,
+        device=device,
+    )
+
+    # Compute and save the initial pretrained representation
+    # before DEC optimization.
+    autoencoder.eval()
+
+    with torch.no_grad():
+        Z_initial = (
+            autoencoder.encoder(X_tensor)
+            .cpu()
+            .numpy()
+        )
+
+    # Fresh KMeans initialization using the initial representation
+    kmeans = KMeans(
+        n_clusters=config["dec"]["num_clusters"],
+        random_state=seed,
+        n_init=20,
+    )
+
+    kmeans.fit(Z_initial)
+
+    cluster_centers = kmeans.cluster_centers_
+
+    # Initialize DEC model with KMeans centers
+    dec_model = DEC(
+        autoencoder=autoencoder,
+        n_clusters=config["dec"]["num_clusters"],
+        cluster_centers=cluster_centers,
+        alpha=config["dec"]["alpha"],
+    ).to(device)
+
+    # Train both the encoder and clustering layer
+    optimizer = torch.optim.Adam(
+        dec_model.parameters(),
+        lr=config["dec"]["learning_rate"],
+    )
+
+    train_dataset = TensorDataset(
+        X_tensor,
+        torch.arange(
+            len(X_tensor),
+            device=device,
+        ),
+    )
+
+    train_loader = DataLoader(
+        train_dataset,
+        batch_size=config["dec"]["batch_size"],
+        shuffle=True,
+    )
+
+    # Initialize the first target distribution
+    dec_model.eval()
+
+    with torch.no_grad():
+        q_full, _ = dec_model(X_tensor)
+        p_full = target_distribution(q_full)
+
+    train_kl = []
+
+    max_epochs = config["dec"]["max_epochs"]
+    update_interval = config["dec"]["update_interval"]
+
+    # DEC training
+    for epoch in range(max_epochs):
+
+        # Recompute the target distribution using
+        # the complete dataset at each update interval.
+        if epoch % update_interval == 0:
+
+            dec_model.eval()
+
+            with torch.no_grad():
+                q_full, _ = dec_model(X_tensor)
+                p_full = target_distribution(q_full)
+
+        dec_model.train()
+
+        batch_losses = []
+
+        for x_batch, batch_indices in train_loader:
+
+            x_batch = x_batch.to(device)
+            batch_indices = batch_indices.to(device)
+
+            optimizer.zero_grad(set_to_none=True)
+
+            q_batch, _ = dec_model(x_batch)
+
+            p_batch = p_full[batch_indices]
+
+            loss = F.kl_div(
+                q_batch.log(),
+                p_batch,
+                reduction="batchmean",
+            )
+
+            loss.backward()
+
+            optimizer.step()
+
+            batch_losses.append(loss.item())
+
+        epoch_train_loss = (
+            sum(batch_losses) / len(batch_losses)
+        )
+
+        train_kl.append(epoch_train_loss)
+
+        print(
+            f"Epoch {epoch + 1}/{max_epochs}, "
+            f"Train KL Loss = {epoch_train_loss:.4f}"
+        )
+
+    # Final full-dataset inference
+    dec_model.eval()
+
+    with torch.no_grad():
+
+        q_full, _ = dec_model(X_tensor)
+
+        full_labels = torch.argmax(
+            q_full,
+            dim=1,
+        ).cpu().numpy()
+
+        Z_full = (
+            autoencoder.encoder(X_tensor)
+            .cpu()
+            .numpy()
+        )
+
+        p_full = target_distribution(q_full)
+
+    return {
+        "train_kl": train_kl,
+        "cluster_centers": (
+            dec_model.clustering_layer
+            .cluster_centers
+            .detach()
+            .cpu()
+            .numpy()
+        ),
+        "full_labels": full_labels,
+        "q_full": q_full.cpu().numpy(),
+        "Z_full": Z_full,
+        "Z_initial": Z_initial,
+        "p_full": p_full.cpu().numpy(),
+        "seed": seed,
+    }
