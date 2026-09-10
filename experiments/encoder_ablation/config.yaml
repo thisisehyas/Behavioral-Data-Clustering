@@ -1,0 +1,38 @@
+experiment:
+  name: encoder_trainability_ablation
+  description: >
+    Ablation study comparing DEC with a frozen pretrained encoder
+    against DEC with a trainable pretrained encoder on the full
+    roommate compatibility dataset.
+  output_dir: experiments/encoder_ablation/runs
+  ae_checkpoint_path: models/autoencoder_weights.pth
+
+dataset:
+  source: compressed_features_standardized
+  input_dim: 7
+  latent_dim: 5
+
+dec:
+  num_clusters: 5
+  alpha: 0.5
+  learning_rate: 0.003
+  optimizer: adam
+  encoder_frozen: false
+  update_interval: 20
+  max_epochs: 50
+  batch_size: 256
+  n_init: 20
+
+ablation:
+  conditions:
+    - frozen
+    - trainable
+  seed: 42
+
+logging:
+  save_kl_train: true
+  save_q_full: true
+  save_cluster_centers: true
+  save_labels_full: true
+  save_embeddings_full: true
+  save_initial_embeddings: true
