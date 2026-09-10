@@ -1,0 +1,40 @@
+{
+  "experiment": "encoder_ablation",
+  "conditions": [
+    "frozen",
+    "trainable"
+  ],
+  "feature_space": {
+    "description": "Final DEC latent representation (Z_full) used for clustering and internal clustering evaluation."
+  },
+  "entropy": {
+    "mean_entropy": "Raw assignment entropy.",
+    "normalized_mean_entropy": "Mean assignment entropy divided by log(k), where k is the number of clusters."
+  },
+  "metrics": {
+    "frozen": {
+      "condition": "frozen",
+      "n_samples": 99997,
+      "n_features": 5,
+      "n_clusters": 5,
+      "silhouette": 0.23581914603710175,
+      "davies_bouldin": 1.0983912028937404,
+      "calinski_harabasz": 33874.73397790442,
+      "mean_entropy": 1.4455499649047852,
+      "normalized_mean_entropy": 0.8981706928467639,
+      "std_entropy": 0.06497330963611603
+    },
+    "trainable": {
+      "condition": "trainable",
+      "n_samples": 99997,
+      "n_features": 5,
+      "n_clusters": 5,
+      "silhouette": 0.6189176440238953,
+      "davies_bouldin": 0.5360006579712173,
+      "calinski_harabasz": 213778.76484903696,
+      "mean_entropy": 0.7718192338943481,
+      "normalized_mean_entropy": 0.4795582531835946,
+      "std_entropy": 0.4341725707054138
+    }
+  }
+}

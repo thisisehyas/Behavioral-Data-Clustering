@@ -1,0 +1,21 @@
+{
+  "n_samples": 99997,
+  "mean_displacement": 5.990764617919922,
+  "median_displacement": 5.836828231811523,
+  "std_displacement": 2.4421370029449463,
+  "min_displacement": 0.2682723104953766,
+  "max_displacement": 21.09111785888672,
+  "quantiles": {
+    "q25": 3.826219320297241,
+    "q50": 5.836828231811523,
+    "q75": 8.430513381958008,
+    "q90": 8.858956336975098,
+    "q95": 9.027538299560547,
+    "q99": 10.200119018554688
+  },
+  "distance_metric": "Euclidean",
+  "definition": "Per-observation displacement between the initial pretrained encoder representation and the final representation after trainable DEC optimization.",
+  "formula": "Delta_Z_i = ||Z_final_i - Z_initial_i||_2",
+  "initial_representation": "trainable/Z_initial.npy",
+  "final_representation": "trainable/Z_full.npy"
+}

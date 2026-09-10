@@ -1,0 +1,7 @@
+{
+  "comparison": "frozen_vs_trainable",
+  "n_samples": 99997,
+  "n_clusters": 5,
+  "adjusted_rand_index": 0.7537451169935777,
+  "interpretation_note": "ARI is label-invariant and measures agreement between the frozen-encoder and trainable-encoder partitions."
+}
