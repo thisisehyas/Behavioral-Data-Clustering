@@ -159,7 +159,47 @@ Despite this change in magnitude, the direction of the profile is preserved: the
 
 Thus, encoder training produces a **larger and less extreme version of the same globally low-profile subgroup**, rather than removing the subgroup or changing its qualitative direction.
 
-### 4.2.4 Interpretation
+
+### 4.2.4 Minority Membership Audit
+Because the trainable condition increased the size of the small minority cluster from 489 to 929 observations, an additional membership audit was performed to determine whether the 440 newly incorporated observations exhibited a coherent behavioral profile.
+
+The newly added observations were compared with the frozen minority cluster and the frozen major population using the original seven standardized behavioral features.
+
+The newly added observations showed consistently negative feature values across all seven dimensions. Their median values were:
+
+Feature	Newly added median
+Lifestyle	−1.87
+Communication	−1.20
+Responsibility	−1.89
+Openness	−1.71
+Interests	−0.97
+Emotional Stability	−0.51
+Social Engagement	−1.79
+
+In contrast, the medians of the frozen major population were approximately centered around zero across all seven dimensions. Thus, the newly incorporated observations are systematically shifted toward the lower end of the behavioral feature distributions rather than resembling ordinary observations from the main population.
+
+However, the newly added observations are substantially less extreme than the original frozen minority. For example, the median Lifestyle value changes from −6.53 for the frozen minority to −1.87 for the newly added observations, while the median Responsibility value changes from −7.00 to −1.89.
+
+This indicates that encoder training does not simply preserve the original extreme minority boundary. Instead, the minority structure appears to expand from an extremely low-profile core toward a broader population with consistently low values across the seven behavioral dimensions.
+
+### 4.2.5 Distance-Based Minority Audit
+
+To further characterize this expansion, Euclidean distances in the original seven-dimensional standardized feature space were calculated between each newly added observation and the centroids of the frozen minority and frozen major populations.
+
+The 440 newly added observations had:
+
+Measure	Result
+Mean distance to frozen minority centroid	11.17
+Mean distance to frozen major centroid	5.14
+Mean distance ratio	2.47
+Observations closer to frozen minority centroid	45 / 440
+Percentage closer to frozen minority centroid	10.23%
+
+Most newly added observations were therefore closer to the frozen-major centroid than to the original extreme minority centroid. This complements the feature-profile analysis: the newly added observations are systematically low across the behavioral dimensions, but they generally have greater Euclidean distance from the frozen minority centroid than from the frozen-major centroid.
+
+Taken together, the results suggest that encoder training expands the minority structure from an extreme low-profile core to a broader low-profile region, rather than simply assigning additional observations that are similar to the original minority centroid.
+
+### 4.2.6 Interpretation
 
 The quality and profile results provide complementary information. The trainable encoder substantially improves the geometry of the latent clustering, while the seven-feature profiles of the four major groups remain highly similar.
 
@@ -196,6 +236,10 @@ Smaller fractions are redistributed among the other major clusters.
 The ARI therefore supports a **partially preserved partition with meaningful membership reassignment**. Together with the cluster-profile results, this suggests that encoder trainability refines and redistributes observations among largely consistent behavioral structures rather than producing a completely different set of groups.
 
 The ARI is calculated directly from the original cluster labels and is invariant to cluster-label permutations; no manual label matching is required for this comparison.
+
+The minority-membership audit provides additional evidence regarding the nature of these reassigned observations. All 489 observations in the frozen minority remain in the corresponding trainable minority cluster. The additional 440 observations are systematically shifted toward lower values across all seven original behavioral features, indicating that the newly incorporated observations are systematically different from the population center rather than representative of ordinary observations.
+
+At the same time, the distance analysis shows that most of these observations are not close to the original extreme minority centroid. Thus, the trainable encoder appears to expand the minority region rather than simply reproduce the original minority structure.
 
 
 ## 4.4 Representation Change
@@ -256,19 +300,23 @@ The lower final KL of the trainable condition should not, however, be used indep
 
 # 5. Integrated Interpretation
 
-The encoder-trainability ablation demonstrates that allowing the pretrained encoder to update materially affects DEC behavior.
+The encoder-trainability ablation demonstrates that allowing the pretrained encoder to update materially affects both the latent representation and the resulting DEC partition.
 
-The trainable condition produces substantially stronger internal clustering metrics and lower assignment entropy, accompanied by considerable movement of the latent representation. At the same time, the four major behavioral cluster profiles remain highly similar to those obtained with the frozen encoder. The ARI of **0.7537** confirms that cluster membership changes are meaningful but that substantial correspondence with the original partition remains.
+The trainable condition produces substantially stronger internal clustering metrics and lower mean assignment entropy, accompanied by considerable movement of the latent representation. At the same time, the four major behavioral cluster profiles remain highly similar to those obtained with the frozen encoder, and the ARI of 0.7537 indicates substantial correspondence between the two partitions.
 
-The main structural difference concerns the small globally low-profile subgroup. It increases from **0.49% to 0.93%** of the sample and becomes less extreme in standardized feature space, while retaining its below-mean direction across all seven features.
+The main structural difference concerns the small low-profile subgroup. Its original 489 observations are completely retained after encoder training, while an additional 440 observations are incorporated. These newly added observations show consistently negative values across all seven behavioral dimensions, although they are substantially less extreme than the original minority. The distance analysis further indicates that most of these observations are closer to the frozen-major centroid than to the original extreme minority centroid.
 
-Taken together, the results indicate that encoder trainability primarily **reorganizes the latent geometry and redistributes observations within largely consistent behavioral structures**, rather than generating an entirely different behavioral partition. The training trajectories support this interpretation by showing continued optimization and substantial adaptation in the trainable condition.
+Thus, the trainable condition appears to expand the minority structure from an extreme low-profile core to a broader low-profile region rather than producing arbitrary membership reassignment.
+
+These findings reduce concern that the improved trainable solution results from indiscriminate or random reassignment. However, they do not establish that the substantially improved latent-space metrics represent intrinsically more meaningful behavioral structure. Because the encoder is optimized directly through the clustering objective, objective-driven latent-space distortion remains a methodological consideration and motivates further comparison with a reconstruction-constrained IDEC-style formulation.
 
 
-# 6. Final Conclusion
+# 6. Current Conclusion
 
-The ablation supports the use of a **trainable pretrained encoder** for the final DEC configuration. Encoder freezing produces a substantially different latent solution and limits the extent to which DEC can adapt the representation to the clustering objective.
+The ablation demonstrates that encoder trainability materially affects the DEC representation and clustering solution. Allowing the pretrained encoder to update substantially improves internal clustering metrics and changes the distribution of cluster membership, while preserving substantial correspondence with the frozen solution and the major behavioral profiles.
 
-The trainable condition provides stronger internal separation and assignment certainty while retaining substantial correspondence with the behavioral structures identified by the frozen condition. Thus, encoder trainability is treated as a meaningful component of the final DEC model rather than as a minor implementation choice.
+The minority-membership audit provides additional evidence that the newly incorporated observations are systematically shifted toward lower values across the seven behavioral dimensions rather than being representative of the population center. The original extreme minority subgroup is also fully retained.
 
-The frozen-encoder condition is retained as an **ablation reference**, while the trainable-encoder condition is used as the final DEC formulation for subsequent analyses and reporting.
+These findings support further consideration of the trainable encoder as the primary DEC formulation. However, the substantial latent-space adaptation and the large improvement in internal clustering metrics warrant additional assessment of potential objective-driven representation distortion. Therefore, the final choice between vanilla trainable DEC and a reconstruction-constrained IDEC-style formulation is deferred to the subsequent experiment.
+
+The frozen-encoder condition is retained as an ablation reference.
