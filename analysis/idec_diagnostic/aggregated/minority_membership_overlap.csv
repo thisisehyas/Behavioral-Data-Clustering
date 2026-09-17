@@ -1,0 +1,2 @@
+trainable_dec_minority_cluster,idec_minority_cluster,trainable_dec_minority_n,idec_minority_n,shared_n,union_n,trainable_dec_retention_pct,idec_retention_pct,jaccard_overlap
+0,0,929,488,488,929,52.529601722282024,100.0,0.5252960172228203
