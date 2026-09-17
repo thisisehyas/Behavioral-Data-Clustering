@@ -4,6 +4,7 @@ import json
 from src.dec.train_dec import train_dec
 from src.dec.train_dec import train_dec_final
 from src.dec.train_dec import train_dec_encoder_trainable
+from src.dec.train_dec import train_idec
 
 def save_experiment_results(
     results,
@@ -341,3 +342,78 @@ def run_dec_encoder_trainable_single_seed(
         "w",
     ) as f:
         json.dump(meta, f, indent=2)
+
+def run_idec_single_seed(
+    X,
+    ae_checkpoint_path,
+    seed,
+    config,
+    output_dir,
+):
+    """
+    Run a single IDEC experiment and save its outputs.
+    """
+    results = train_idec(
+        X=X,
+        ae_checkpoint_path=ae_checkpoint_path,
+        config=config,
+        seed=seed,
+    )
+
+    os.makedirs(output_dir, exist_ok=True)
+
+    metadata = {
+        "seed": seed,
+        "num_clusters": config["dec"]["num_clusters"],
+        "alpha": config["dec"]["alpha"],
+        "learning_rate": config["dec"]["learning_rate"],
+        "max_epochs": config["dec"]["max_epochs"],
+        "update_interval": config["dec"]["update_interval"],
+        "batch_size": config["dec"]["batch_size"],
+        "n_init": config["dec"]["n_init"],
+        "clustering_weight": config["idec"]["clustering_weight"],
+        "encoder_trainable": True,
+        "decoder_trainable": True,
+        "ae_checkpoint_path": ae_checkpoint_path,
+    }
+
+    np.save(
+        os.path.join(output_dir, "train_kl.npy"),
+        np.array(results["train_kl"]),
+    )
+
+    np.save(
+        os.path.join(output_dir, "train_reconstruction.npy"),
+        np.array(results["train_reconstruction"]),
+    )
+
+    np.save(
+        os.path.join(output_dir, "full_labels.npy"),
+        results["full_labels"],
+    )
+
+    np.save(
+        os.path.join(output_dir, "q_full.npy"),
+        results["q_full"],
+    )
+
+    np.save(
+        os.path.join(output_dir, "Z_full.npy"),
+        results["Z_full"],
+    )
+
+    np.save(
+        os.path.join(output_dir, "Z_initial.npy"),
+        results["Z_initial"],
+    )
+
+    np.save(
+        os.path.join(output_dir, "cluster_centers.npy"),
+        results["cluster_centers"],
+    )
+
+    with open(
+        os.path.join(output_dir, "meta.json"),
+        "w",
+    ) as f:
+        json.dump(metadata, f, indent=2)

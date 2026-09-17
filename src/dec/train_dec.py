@@ -588,3 +588,231 @@ def train_dec_encoder_trainable(
         "p_full": p_full.cpu().numpy(),
         "seed": seed,
     }
+
+def train_idec(
+    X,
+    ae_checkpoint_path,
+    config,
+    seed,
+):
+    """
+    Train an IDEC-style model with a trainable encoder and
+    reconstruction-constrained clustering.
+
+    The model is trained on the full dataset using:
+    - a pretrained autoencoder
+    - a trainable encoder and decoder
+    - fresh KMeans initialization
+    - one fixed random seed
+    - the selected DEC hyperparameters
+    - mini-batch optimization
+    - KL clustering loss + reconstruction loss
+    - no train/validation split
+
+    The initial encoder representation is saved to allow
+    comparison with the final representation after training.
+    """
+    set_seed(seed)
+
+    device = torch.device(
+        "cuda" if torch.cuda.is_available() else "cpu"
+    )
+
+    # Load pretrained autoencoder
+    autoencoder = Autoencoder()
+    autoencoder.load_state_dict(
+        torch.load(
+            ae_checkpoint_path,
+            map_location=device,
+        )
+    )
+    autoencoder = autoencoder.to(device)
+
+    # The encoder and decoder are trainable in IDEC
+    for param in autoencoder.encoder.parameters():
+        param.requires_grad = True
+
+    for param in autoencoder.decoder.parameters():
+        param.requires_grad = True
+
+    X_tensor = torch.tensor(
+        X,
+        dtype=torch.float32,
+        device=device,
+    )
+
+    # Compute initial pretrained representation
+    autoencoder.eval()
+    with torch.no_grad():
+        Z_initial = (
+            autoencoder.encoder(X_tensor)
+            .cpu()
+            .numpy()
+        )
+
+    # Fresh KMeans initialization using initial representation
+    kmeans = KMeans(
+        n_clusters=config["dec"]["num_clusters"],
+        random_state=seed,
+        n_init=20,
+    )
+    kmeans.fit(Z_initial)
+    cluster_centers = kmeans.cluster_centers_
+
+    # Initialize DEC model
+    dec_model = DEC(
+        autoencoder=autoencoder,
+        n_clusters=config["dec"]["num_clusters"],
+        cluster_centers=cluster_centers,
+        alpha=config["dec"]["alpha"],
+    ).to(device)
+
+    # Train encoder, decoder, and clustering layer
+    optimizer = torch.optim.Adam(
+        list(dec_model.parameters())
+        + list(autoencoder.decoder.parameters()),
+        lr=config["dec"]["learning_rate"],
+    )
+
+    train_dataset = TensorDataset(
+        X_tensor,
+        torch.arange(
+            len(X_tensor),
+            device=device,
+        ),
+    )
+
+    train_loader = DataLoader(
+        train_dataset,
+        batch_size=config["dec"]["batch_size"],
+        shuffle=True,
+    )
+
+    # Clustering weight
+    clustering_weight = config["idec"]["clustering_weight"]
+
+    # Initialize first target distribution
+    dec_model.eval()
+    with torch.no_grad():
+        q_full, _ = dec_model(X_tensor)
+        p_full = target_distribution(q_full)
+
+    train_kl = []
+    train_reconstruction = []
+
+    max_epochs = config["dec"]["max_epochs"]
+    update_interval = config["dec"]["update_interval"]
+
+    # IDEC training
+    for epoch in range(max_epochs):
+
+        # Recompute target distribution at each update interval
+        if epoch % update_interval == 0:
+            dec_model.eval()
+            with torch.no_grad():
+                q_full, _ = dec_model(X_tensor)
+                p_full = target_distribution(q_full)
+
+        dec_model.train()
+        autoencoder.decoder.train()
+
+        batch_kl_losses = []
+        batch_reconstruction_losses = []
+
+        for x_batch, batch_indices in train_loader:
+            x_batch = x_batch.to(device)
+            batch_indices = batch_indices.to(device)
+
+            optimizer.zero_grad(set_to_none=True)
+
+            q_batch, z_batch = dec_model(x_batch)
+
+            p_batch = p_full[batch_indices]
+
+            # DEC clustering loss
+            kl_loss = F.kl_div(
+                q_batch.log(),
+                p_batch,
+                reduction="batchmean",
+            )
+
+            # Reconstruction loss
+            x_reconstructed = autoencoder.decoder(z_batch)
+
+            reconstruction_loss = F.mse_loss(
+                x_reconstructed,
+                x_batch,
+            )
+
+            # Combined IDEC objective
+            loss = (
+                reconstruction_loss + clustering_weight * kl_loss
+            )
+
+            loss.backward()
+            optimizer.step()
+
+            batch_kl_losses.append(kl_loss.item())
+            batch_reconstruction_losses.append(
+                reconstruction_loss.item()
+            )
+
+        epoch_kl_loss = (
+            sum(batch_kl_losses)
+            / len(batch_kl_losses)
+        )
+
+        epoch_reconstruction_loss = (
+            sum(batch_reconstruction_losses)
+            / len(batch_reconstruction_losses)
+        )
+
+        train_kl.append(epoch_kl_loss)
+        train_reconstruction.append(
+            epoch_reconstruction_loss
+        )
+
+        print(
+            f"Epoch {epoch + 1}/{max_epochs}, "
+            f"KL Loss = {epoch_kl_loss:.4f}, "
+            f"Reconstruction Loss = "
+            f"{epoch_reconstruction_loss:.4f}"
+        )
+
+    # Final full-dataset inference
+    dec_model.eval()
+    autoencoder.decoder.eval()
+
+    with torch.no_grad():
+        q_full, _ = dec_model(X_tensor)
+
+        full_labels = torch.argmax(
+            q_full,
+            dim=1,
+        ).cpu().numpy()
+
+        Z_full = (
+            autoencoder.encoder(X_tensor)
+            .cpu()
+            .numpy()
+        )
+
+        p_full = target_distribution(q_full)
+
+    return {
+        "train_kl": train_kl,
+        "train_reconstruction": train_reconstruction,
+        "cluster_centers": (
+            dec_model.clustering_layer
+            .cluster_centers
+            .detach()
+            .cpu()
+            .numpy()
+        ),
+        "full_labels": full_labels,
+        "q_full": q_full.cpu().numpy(),
+        "Z_full": Z_full,
+        "Z_initial": Z_initial,
+        "p_full": p_full.cpu().numpy(),
+        "seed": seed,
+    }
