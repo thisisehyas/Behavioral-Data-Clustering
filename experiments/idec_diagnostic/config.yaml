@@ -1,0 +1,39 @@
+experiment:
+  name: idec_diagnostic
+  description: >
+    Diagnostic experiment evaluating reconstruction-constrained
+    Deep Embedded Clustering (IDEC) with a trainable pretrained
+    encoder and decoder on the full roommate compatibility dataset.
+  output_dir: experiments/idec_diagnostic/runs
+  ae_checkpoint_path: models/autoencoder_weights.pth
+
+dataset:
+  source: compressed_features_standardized
+  input_dim: 7
+  latent_dim: 5
+
+dec:
+  num_clusters: 5
+  alpha: 0.5
+  learning_rate: 0.003
+  optimizer: adam
+  encoder_frozen: false
+  update_interval: 20
+  max_epochs: 50
+  batch_size: 256
+  n_init: 20
+
+idec:
+  clustering_weight: 0.1
+
+sweep:
+  seed: 42
+
+logging:
+  save_kl_train: true
+  save_reconstruction_train: true
+  save_q_full: true
+  save_cluster_centers: true
+  save_labels_full: true
+  save_embeddings_full: true
+  save_initial_embeddings: true
