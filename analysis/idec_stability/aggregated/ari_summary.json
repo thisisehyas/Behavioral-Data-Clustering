@@ -1,0 +1,10 @@
+{
+  "reference_seed": 42,
+  "n_seeds": 5,
+  "n_pairwise_comparisons": 10,
+  "mean_ARI": 0.7248140705700783,
+  "std_ARI": 0.16526212307783555,
+  "min_ARI": 0.5209623525580548,
+  "max_ARI": 0.8804160860507221,
+  "median_ARI": 0.8325241475400424
+}
