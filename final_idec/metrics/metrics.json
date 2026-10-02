@@ -1,0 +1,26 @@
+{
+  "silhouette_score": 0.47181814908981323,
+  "davies_bouldin_index": 0.7802451263437012,
+  "calinski_harabasz_score": 138960.1649079241,
+  "entropy_metrics": {
+    "mean_entropy": 1.0216649770736694,
+    "std_entropy": 0.30690205097198486
+  },
+  "optimization_metrics": {
+    "final_train_kl": 0.06386976524272843,
+    "minimum_train_kl": 0.019398163675385362,
+    "minimum_train_kl_epoch": 20,
+    "maximum_train_kl": 0.10893071618150263,
+    "mean_train_kl": 0.03994887568066112,
+    "std_train_kl": 0.023355141862542273
+  },
+  "reconstruction_metrics": {
+    "initial_reconstruction": 0.11685569820654057,
+    "final_reconstruction": 0.08367115822251496,
+    "minimum_reconstruction": 0.08266132936605712,
+    "minimum_reconstruction_epoch": 38,
+    "maximum_reconstruction": 0.11685569820654057,
+    "mean_reconstruction": 0.08781913548860404,
+    "std_reconstruction": 0.006887186997746198
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "cluster_sizes": {
+    "0": 492,
+    "1": 22916,
+    "2": 25806,
+    "3": 29657,
+    "4": 21126
+  },
+  "minimum_cluster_size": 492,
+  "maximum_cluster_size": 29657,
+  "imbalance_ratio": 60.27845528455285
+}

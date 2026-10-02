@@ -1,0 +1,55 @@
+Cluster 0 (N=492):
+  Characteristics (higher than average):
+    - None
+  Characteristics (lower than average):
+    - Lifestyle: z=-6.27
+    - Communication: z=-6.18
+    - Responsibility: z=-5.87
+    - Openness: z=-5.44
+    - Interests: z=-5.01
+    - EmotionalStability: z=-4.82
+    - SocialEngagement: z=-4.22
+
+Cluster 1 (N=22916):
+  Characteristics (higher than average):
+    - SocialEngagement: z=0.57
+    - EmotionalStability: z=0.52
+    - Interests: z=0.16
+    - Communication: z=0.15
+  Characteristics (lower than average):
+    - Openness: z=-0.54
+    - Responsibility: z=-0.36
+    - Lifestyle: z=-0.03
+
+Cluster 2 (N=25806):
+  Characteristics (higher than average):
+    - SocialEngagement: z=0.66
+    - EmotionalStability: z=0.55
+    - Openness: z=0.52
+    - Responsibility: z=0.43
+    - Communication: z=0.33
+  Characteristics (lower than average):
+    - Interests: z=-0.64
+    - Lifestyle: z=-0.42
+
+Cluster 3 (N=29657):
+  Characteristics (higher than average):
+    - Interests: z=0.64
+    - Lifestyle: z=0.45
+  Characteristics (lower than average):
+    - SocialEngagement: z=-0.63
+    - EmotionalStability: z=-0.48
+    - Openness: z=-0.37
+    - Responsibility: z=-0.33
+    - Communication: z=-0.22
+
+Cluster 4 (N=21126):
+  Characteristics (higher than average):
+    - Openness: z=0.60
+    - Responsibility: z=0.47
+    - Lifestyle: z=0.06
+  Characteristics (lower than average):
+    - EmotionalStability: z=-0.46
+    - SocialEngagement: z=-0.44
+    - Interests: z=-0.17
+    - Communication: z=-0.11
