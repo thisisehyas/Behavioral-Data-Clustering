@@ -1,0 +1,55 @@
+
+experiment:
+  name: baseline_comparison
+  description: >-
+    Compare K-Means, DEC Frozen, DEC Trainable, and IDEC
+    using the same standardized composite features.
+  random_seed: 42
+
+data:
+  features_path: dataset/X_scaled.csv
+  expected_samples: 99997
+  expected_features: 7
+  feature_space: standardized_composite_features
+
+models:
+  - name: kmeans
+    type: baseline
+    n_clusters: 5
+    random_state: 42
+    n_init: 20
+
+  - name: dec_frozen
+    type: pretrained
+    labels_path: final_dec/model/final_labels.npy
+    n_clusters: 5
+
+  - name: dec_trainable
+    type: pretrained
+    labels_path: experiments/encoder_ablation/runs/trainable/full_labels.npy
+    n_clusters: 5
+
+  - name: idec_final
+    type: pretrained
+    labels_path: final_idec/model/final_labels.npy
+    n_clusters: 5
+
+evaluation:
+  metrics:
+    - silhouette
+    - davies_bouldin
+    - calinski_harabasz
+  common_feature_space: true
+  silhouette:
+    method: full_or_fixed_sample
+    sample_size: 10000
+    random_state: 42
+  davies_bouldin:
+    use_full_dataset: true
+  calinski_harabasz:
+    use_full_dataset: true
+
+outputs:
+  directory: experiments/baseline_comparison/results
+  metrics_csv: metrics_comparison.csv
+  label_counts_csv: cluster_counts.csv
