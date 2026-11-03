@@ -1,0 +1,18 @@
+{
+  "experiment": "Representation Preservation",
+  "observations": 99997,
+  "sampling": "None. full dataset",
+  "random_seed": 82,
+  "original_feature_dimensions": 7,
+  "latent_dimensions": {
+    "Frozen DEC": 5,
+    "Trainable DEC": 5,
+    "IDEC": 5
+  },
+  "distance_metric": "euclidean",
+  "models": [
+    "Frozen DEC",
+    "Trainable DEC",
+    "IDEC"
+  ]
+}

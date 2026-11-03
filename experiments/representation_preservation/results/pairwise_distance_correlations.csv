@@ -1,0 +1,4 @@
+model,pearson_distance_correlation,number_of_observations,number_of_pairs
+Frozen DEC,0.6978848483415814,99997,4999650006
+Trainable DEC,0.36661034719940966,99997,4999650006
+IDEC,0.3918079835440556,99997,4999650006

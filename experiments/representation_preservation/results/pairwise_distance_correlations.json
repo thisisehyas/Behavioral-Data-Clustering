@@ -1,0 +1,32 @@
+{
+  "experiment": "Representation Preservation",
+  "measurement": "Exact all-pairs Euclidean distance correlation",
+  "correlation_method": "Pearson",
+  "number_of_observations": 99997,
+  "original_space_dimensions": 7,
+  "latent_space_dimensions": {
+    "Frozen DEC": 5,
+    "Trainable DEC": 5,
+    "IDEC": 5
+  },
+  "number_of_unique_pairs": 4999650006,
+  "distance_metric": "euclidean",
+  "pair_sampling": false,
+  "block_size": 200,
+  "runtime_seconds": 302.542,
+  "random_seed": 82,
+  "results": {
+    "Frozen DEC": {
+      "pearson_distance_correlation": 0.6978848483415814,
+      "number_of_pairs": 4999650006
+    },
+    "Trainable DEC": {
+      "pearson_distance_correlation": 0.36661034719940966,
+      "number_of_pairs": 4999650006
+    },
+    "IDEC": {
+      "pearson_distance_correlation": 0.3918079835440556,
+      "number_of_pairs": 4999650006
+    }
+  }
+}
