@@ -1,0 +1,22 @@
+# Deep learning: DEC, IDEC, and autoencoder
+torch==2.9.1
+
+# Classical machine learning and evaluation
+scikit-learn==1.8.0
+
+# Data handling and numerical computation
+numpy==2.3.5
+pandas==2.3.3
+scipy==1.16.3
+openpyxl==3.1.5
+
+# Dimensionality reduction and visualization
+umap-learn==0.5.9.post2
+matplotlib==3.10.8
+seaborn==0.13.2
+
+# Configuration files
+PyYAML==6.0.3
+
+# Jupyter notebook support
+ipykernel==7.1.0
