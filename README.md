@@ -42,9 +42,9 @@ To examine whether individuals with different psychological, behavioral, and lif
 
 - Clustering on the composite (grouped) features consistently performed better than clustering on raw or PCA-reduced features, across several tested algorithms.
 - Spectral Clustering on composite features and DBSCAN on the full feature set achieved the strongest internal cluster separation observed in this stage (Silhouette ≈ 0.71 and ≈ 0.69, respectively).
-- A divisive hierarchical pipeline applied to the full dataset identified seven interpretable behavioral clusters. These ranged from one highly coherent, well-seperated subgroup (Silhouette ≈ 0.78) to several moderately overlapping groups.
+- A divisive hierarchical pipeline applied to the full dataset identified seven interpretable behavioral clusters. These ranged from one highly coherent, well-separated subgroup (Silhouette ≈ 0.78) to several moderately overlapping groups.
 - Kernel K-Means was applied within individual hierarchical branches to investigate non-linear substructure. It largely reproduced the groupings identified by the hierarchical pipeline, providing initial evidence that the recovered structure was not specific to a single clustering method.
-- The compatibility-scoring system identified a small group of individuals with structurally low compatibility (133 of 100,000, with an average top-5 match score below 2.5). These individuals were not distributed randomly across clusters: one cluster contained a disproportionately large of them. They were characterized by comparatively low emotional stability, responsibility, or social engagement.
+- The compatibility-scoring system identified a small group of individuals with structurally low compatibility (133 of 100,000, with an average top-5 match score below 2.5). These individuals were not distributed randomly across clusters: one cluster contained a disproportionately large number of them. They were characterized by comparatively low emotional stability, responsibility, or social engagement.
 - The thesis received the highest possible grade (20/20).
 
 **Relevant notebooks:**
@@ -70,8 +70,8 @@ This stage uses the same dataset, the same composite behavioral dimensions, and 
 - An **encoder-trainability ablation**, comparing a frozen pretrained encoder with a jointly fine-tuned (trainable) encoder under otherwise identical DEC configurations.
 - An **IDEC (Improved Deep Embedded Clustering) diagnostic**, introducing a reconstruction-regularization term to investigate whether it limits the representation distortion caused by unconstrained encoder fine-tuning.
 - A **controlled comparison in a common evaluation space** of frozen DEC, trainable DEC, IDEC, and K-Means. All four models were evaluated using identical internal clustering metrics in the original seven-dimensional feature space.
-- An **exact, full-dataset representation-preservation analysis** — pairwise-distance correlation and k-nearest-neighbor preservation between the original feature space and each model's learned latent space, Computed over all ≈5 billion unique observation pairs without any sampling.
-- A **structured literature review** of roughly 17 papers across six thematic areas (seed and initialization stability, representation learning and reconstruction regularization, evaluation-space dependence, minority-cluster robustness, hyperparameter sensitivity, and cluster-number selection). The review was used to place the findings in the context of existing deep-clustering research.
+- An **exact, full-dataset representation-preservation analysis** — pairwise-distance correlation and k-nearest-neighbor preservation between the original feature space and each model's learned latent space, computed over all ≈5 billion unique observation pairs without any sampling.
+- A **structured literature review** of roughly 17 papers across six thematic areas (seed and initialization stability, representation learning and reconstruction regularization, evaluation-space dependence, minority-cluster robustness, hyperparameter sensitivity, and cluster-number selection). The review was used to place the findings in the context of existing deep clustering research.
 - **Cluster profiling and visualization**
 
 #### Key Findings
