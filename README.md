@@ -214,6 +214,6 @@ pip install -r requirements.txt
 ## 6. Publication Status
 
 - **Part I** (bachelor's thesis) was completed and defended, and evaluated with the highest possible grade (20/20).
-- **Part II** (deep clustering research) is currently being prepared as a manuscript for submission to a peer-reviewed, international journal.
+- **Part II** (deep clustering research) is ongoing. Current work focuses on investigating recent advances in clustering methods and exploring potential methodological extensions.
 
-This README will be updated with publication details once available.
+This README will be updated with the progress and publication details once available.
